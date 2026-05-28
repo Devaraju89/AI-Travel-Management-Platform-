@@ -146,6 +146,13 @@ class Booking extends Model
         return $this->booking_status === 'cancelled';
     }
 
+    public function requiresGuide(): bool
+    {
+        return !empty($this->guide_id) || 
+               str_contains($this->special_requests ?? '', 'Guide') || 
+               (!empty($this->itinerary_id) && $this->isConfirmed());
+    }
+
     public function scopeConfirmed($query)
     {
         return $query->where('booking_status', 'confirmed');

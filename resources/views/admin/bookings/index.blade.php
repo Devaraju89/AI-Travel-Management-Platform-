@@ -35,6 +35,7 @@
                 <td style="padding:.75rem 1rem;font-size:.8rem;color:var(--muted)">{{ $b->created_at->format('M d, Y') }}</td>
                 <td style="padding:.75rem 1rem">
                     <div style="display:flex;gap:.5rem;align-items:center">
+                        @if($b->requiresGuide())
                         <button type="button" class="btn btn-sm btn-outline" style="font-size:.75rem;padding:.2rem .5rem" onclick="openAssignModal('{{ $b->id }}', '{{ $b->booking_reference }}', '{{ $b->guide_id }}', `{{ addslashes($b->package_details_shared ?? '') }}`)">
                             <i class="fas fa-tasks"></i> Manage Booking
                         </button>
@@ -44,6 +45,11 @@
                                 <i class="fas fa-paper-plane"></i> Send to Guide
                             </button>
                         </form>
+                        @endif
+                        @else
+                        <span style="font-size:.75rem;color:var(--muted);background:rgba(255,255,255,0.03);padding:.25rem .5rem;border-radius:6px;border:1px solid var(--border)">
+                            <i class="fas fa-user-slash"></i> No Guide Needed
+                        </span>
                         @endif
                         @if($b->payment_status==='paid')
                         <form method="POST" action="{{ route('admin.bookings.refund',$b) }}">@csrf
