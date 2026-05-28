@@ -161,10 +161,10 @@
                 <div class="member-role">UI / UX Designer</div>
                 <div class="member-bio">Crafts beautiful visual systems, highly engaging micro-interactions, and premium responsive web layouts.</div>
                 <div class="social-links">
-                    <a href="#" target="_blank" class="social-btn github" title="GitHub"><i class="fab fa-github"></i></a>
-                    <a href="#" target="_blank" class="social-btn linkedin"  title="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
-                    <a href="#" target="_blank" class="social-btn instagram" title="Instagram"><i class="fab fa-instagram"></i></a>
-                    <a href="#" target="_blank" class="social-btn twitter"   title="Twitter / X"><i class="fab fa-x-twitter"></i></a>
+                    <a href="https://github.com/Devaraju89" target="_blank" class="social-btn github" title="GitHub"><i class="fab fa-github"></i></a>
+                    <a href="https://www.linkedin.com/in/devaraju18/" target="_blank" class="social-btn linkedin"  title="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="https://www.instagram.com/ideva.23?igsh=MXNqNTU5NTZrMXR6Mg==" target="_blank" class="social-btn instagram" title="Instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="https://x.com/Deva744_18" target="_blank" class="social-btn twitter"   title="Twitter / X"><i class="fab fa-x-twitter"></i></a>
                 </div>
             </div>
 
