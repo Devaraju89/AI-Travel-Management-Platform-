@@ -1318,7 +1318,7 @@ function simulateAIEngine() {
     const from = document.getElementById('route_from').value;
     const to = document.getElementById('route_to').value;
     const days = document.getElementById('route_days').value || '3';
-    const budgetType = document.getElementById('route_budget').value || 'Standard';
+    const budget = document.getElementById('route_budget').value || 'Standard';
     const travelers = document.getElementById('route_travelers').value || '2';
 
     const loader = document.getElementById('ai_loader');
@@ -1331,7 +1331,7 @@ function simulateAIEngine() {
     const steps = [
         { icon: 'fa-globe-asia', title: 'Analyzing Geography', desc: `Mapping route from ${from || 'Origin'} to ${to || 'Destination'}...` },
         { icon: 'fa-plane-departure', title: 'Calculating Transit Metrics', desc: 'Querying live flight and railway pricing databases...' },
-        { icon: 'fa-hotel', title: 'Curating Accommodations', desc: `Filtering optimized lodgings within ₹${budget} budget...` },
+        { icon: 'fa-hotel', title: 'Curating Accommodations', desc: `Filtering optimized lodgings within ${budget} budget...` },
         { icon: 'fa-microchip', title: 'AI Orchestration', desc: 'Synthesizing day-by-day intelligent itinerary...' }
     ];
 

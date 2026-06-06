@@ -118,7 +118,6 @@ class Destination extends Model
         'Great Wall of China'=> 'great wall china beijing mountains',
         'Seoul'              => 'seoul korea gyeongbokgung palace city',
         'Bangkok'            => 'bangkok grand palace temple thailand',
-        'Sigiriya'           => 'sigiriya rock sri lanka ancient fortress',
         'Singapore'          => 'singapore marina bay sands gardens',
         'Kathmandu'          => 'kathmandu boudhanath stupa nepal himalaya',
         'Dubai'              => 'dubai burj khalifa skyline uae',

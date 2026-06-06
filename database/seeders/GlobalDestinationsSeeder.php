@@ -154,14 +154,6 @@ class GlobalDestinationsSeeder extends Seeder
                 'duration_days_suggested' => 4, 'transport_mode' => 'flight'
             ],
             [
-                'name' => 'Sigiriya', 'city' => 'Dambulla', 'country' => 'Sri Lanka', 
-                'category' => 'heritage', 'best_season' => 'Dec-Mar', 'avg_rating' => 4.8, 'review_count' => 4100, 
-                'image_url' => 'https://images.unsplash.com/photo-1586220742614-da9067b66782?w=800', 
-                'description' => 'An ancient palace and fortress complex carved into a massive rock.',
-                'base_price_economy' => 15000, 'base_price_standard' => 28000, 'base_price_luxury' => 55000,
-                'duration_days_suggested' => 4, 'transport_mode' => 'flight'
-            ],
-            [
                 'name' => 'Singapore', 'city' => 'Singapore', 'country' => 'Singapore', 
                 'category' => 'luxury', 'best_season' => 'Feb-Apr', 'avg_rating' => 4.8, 'review_count' => 10200, 
                 'image_url' => 'https://images.unsplash.com/photo-1525625293386-3f8f99389edd?w=800', 

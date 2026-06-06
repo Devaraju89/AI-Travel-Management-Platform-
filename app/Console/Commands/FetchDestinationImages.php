@@ -95,7 +95,6 @@ class FetchDestinationImages extends Command
         'Great Wall of China'=> 'great wall china beijing mountains',
         'Seoul'              => 'seoul korea gyeongbokgung palace night city',
         'Bangkok'            => 'bangkok grand palace temple wat thailand',
-        'Sigiriya'           => 'sigiriya rock sri lanka ancient fortress',
         'Singapore'          => 'singapore marina bay sands gardens bay',
         'Kathmandu'          => 'kathmandu boudhanath stupa nepal himalaya',
         'Dubai'              => 'dubai burj khalifa skyline uae modern',
