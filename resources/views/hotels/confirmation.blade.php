@@ -45,7 +45,7 @@
                     <i class="fas fa-map-marker-alt" style="color:#6c63ff"></i> {{ $booking->hotel->address ?? ($booking->hotel->destination?->name ?? 'Hotel location') }}
                 </div>
                 <div style="margin-top:.4rem">
-                    @for($i=0;$i<($booking->hotel->star_rating??4);$i++)<span style="color:#ffca28">★</span>@endfor
+                    @for($i=0;$i<($booking->hotel->star_rating??4);$i++)<span style="color:#fed7aa">★</span>@endfor
                 </div>
             </div>
         </div>
@@ -85,7 +85,7 @@
             </div>
             <div class="info-item">
                 <div class="label">Total Paid</div>
-                <div class="value" style="font-size:1.2rem;color:#ffca28">₹{{ number_format($booking->total_amount) }}</div>
+                <div class="value" style="font-size:1.2rem;color:#fed7aa">₹{{ number_format($booking->total_amount) }}</div>
             </div>
             <div class="info-item">
                 <div class="label">Status</div>
@@ -106,11 +106,11 @@
         <div style="margin-top:1.5rem;background:rgba(255,202,40,.08);border:1px solid rgba(255,202,40,.2);border-radius:12px;padding:1rem;display:grid;grid-template-columns:1fr 1fr;gap:1rem">
             <div style="text-align:center">
                 <div style="font-size:.75rem;color:#b0c4de">Check-in Time</div>
-                <div style="font-size:1.5rem;font-weight:900;color:#ffca28">2:00 PM</div>
+                <div style="font-size:1.5rem;font-weight:900;color:#fed7aa">2:00 PM</div>
             </div>
             <div style="text-align:center">
                 <div style="font-size:.75rem;color:#b0c4de">Check-out Time</div>
-                <div style="font-size:1.5rem;font-weight:900;color:#ffca28">12:00 PM</div>
+                <div style="font-size:1.5rem;font-weight:900;color:#fed7aa">12:00 PM</div>
             </div>
         </div>
 

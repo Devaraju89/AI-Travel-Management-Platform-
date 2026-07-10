@@ -26,7 +26,7 @@
             {{-- User card --}}
             <div class="card" style="padding: 2rem 1.5rem; text-align: center;">
                 <div style="position: relative; width: 110px; height: 110px; margin: 0 auto 1.25rem;">
-                    <div style="position: absolute; inset: -4px; border-radius: 50%; background: linear-gradient(135deg, #ff6f00, #0288d1); padding: 4px; mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0); -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0); -webkit-mask-composite: xor; mask-composite: exclude; pointer-events: none; z-index: 1;"></div>
+                    <div style="position: absolute; inset: -4px; border-radius: 50%; background: linear-gradient(135deg, var(--secondary), #0288d1); padding: 4px; mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0); -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0); -webkit-mask-composite: xor; mask-composite: exclude; pointer-events: none; z-index: 1;"></div>
                     <img src="{{ $user->avatar_url }}" alt="{{ $user->name }}" style="width: 100%; height: 100%; border-radius: 50%; object-fit: cover; border: 4px solid var(--bg); position: relative; z-index: 2;">
                 </div>
 
@@ -53,7 +53,7 @@
                 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; margin-bottom: 1.5rem; text-align: left;">
                     <div style="background: rgba(255,255,255,0.02); padding: 0.75rem 1rem; border-radius: 10px; border: 1px solid var(--border);">
                         <div style="font-size: 0.68rem; color: var(--muted); font-weight: 600; text-transform: uppercase;">Tier</div>
-                        <div style="font-family: 'Outfit', sans-serif; font-size: 1.1rem; font-weight: 800; color: {{ $user->profile?->loyalty_badge_color ?? '#ff6f00' }}; display: flex; align-items: center; gap: 4px; margin-top: 2px;">
+                        <div style="font-family: 'Outfit', sans-serif; font-size: 1.1rem; font-weight: 800; color: {{ $user->profile?->loyalty_badge_color ?? 'var(--secondary)' }}; display: flex; align-items: center; gap: 4px; margin-top: 2px;">
                             <i class="fas fa-crown" style="font-size: 0.85rem;"></i>
                             {{ $user->profile?->loyalty_level_name ?? 'Bronze' }}
                         </div>

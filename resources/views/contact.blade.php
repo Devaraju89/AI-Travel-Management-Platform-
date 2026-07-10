@@ -219,14 +219,14 @@
                 </button>
                 @else
                 <div style="background: rgba(255, 111, 0, 0.08); border: 1px solid rgba(255, 111, 0, 0.3); border-radius: 16px; padding: 1.5rem; text-align: center; margin-top: 1rem;">
-                    <div style="font-family: 'Orbitron', monospace; font-size: 1.1rem; font-weight: 800; color: #ffca28; margin-bottom: 0.5rem; display: flex; align-items: center; justify-content: center; gap: 0.5rem;">
+                    <div style="font-family: 'Orbitron', monospace; font-size: 1.1rem; font-weight: 800; color: #fed7aa; margin-bottom: 0.5rem; display: flex; align-items: center; justify-content: center; gap: 0.5rem;">
                         <i class="fas fa-lock"></i> AUTHENTICATION REQUIRED
                     </div>
                     <p style="color: rgba(255, 255, 255, 0.7); font-size: 0.9rem; margin-bottom: 1.25rem;">
                         Secure transmission requires an active account. Please sign up or log in to contact our support team.
                     </p>
                     <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
-                        <a href="{{ route('register') }}" class="c-btn" style="width: auto; background: linear-gradient(135deg, #ffca28, #ff6f00); color: #000; font-weight: 900; text-decoration: none; padding: 0.8rem 2rem;">
+                        <a href="{{ route('register') }}" class="c-btn" style="width: auto; background: linear-gradient(135deg, #fed7aa, var(--secondary)); color: #000; font-weight: 900; text-decoration: none; padding: 0.8rem 2rem;">
                             <i class="fas fa-user-plus"></i> Sign Up Free
                         </a>
                         <a href="{{ route('login') }}" class="c-btn" style="width: auto; background: rgba(255,255,255,0.05); color: #fff; border: 1px solid rgba(255,255,255,0.2); text-decoration: none; padding: 0.8rem 2rem;">
@@ -242,7 +242,7 @@
         <div class="info-cards">
             @foreach([
                 ['fa-clock','#6c63ff','Support Matrix','24/7 online neural support.\nLive human chat 9AM–9PM (IST).'],
-                ['fa-envelope','#3b82f6','Direct Comm','support@travelmate.com\nPriority routing enabled.'],
+                ['fa-envelope','#34d399','Direct Comm','support@travelmate.com\nPriority routing enabled.'],
                 ['fa-headset','#facc15','Voice Uplink','1-800-TRAVEL-AI\nToll-free international line.'],
                 ['fa-shield-halved','#ec4899','Emergency SOS','In-app SOS module routes your geolocation directly to local embassy services.']
             ] as [$icon,$color,$title,$desc])

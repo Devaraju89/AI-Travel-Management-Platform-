@@ -111,7 +111,7 @@
             @php $statCards = [
                 ['label'=>'Total Assigned','val'=>$stats['total_assigned'],'icon'=>'fa-briefcase','bg'=>'linear-gradient(135deg,#1e3a8a,#1d4ed8)','ibg'=>'rgba(59,130,246,0.2)','ic'=>'#93c5fd'],
                 ['label'=>'Upcoming Trips','val'=>$stats['upcoming_count'],'icon'=>'fa-plane-departure','bg'=>'linear-gradient(135deg,#134e4a,#0d9488)','ibg'=>'rgba(20,184,166,0.2)','ic'=>'#5eead4'],
-                ['label'=>'Confirmed','val'=>$stats['confirmed_trips'],'icon'=>'fa-circle-check','bg'=>'linear-gradient(135deg,#3b0764,#7c3aed)','ibg'=>'rgba(167,139,250,0.2)','ic'=>'#c4b5fd'],
+                ['label'=>'Confirmed','val'=>$stats['confirmed_trips'],'icon'=>'fa-circle-check','bg'=>'linear-gradient(135deg,#3b0764,var(--primary))','ibg'=>'rgba(167,139,250,0.2)','ic'=>'#c4b5fd'],
                 ['label'=>'Completed','val'=>$stats['completed_trips'],'icon'=>'fa-flag-checkered','bg'=>'linear-gradient(135deg,#7f1d1d,#b91c1c)','ibg'=>'rgba(252,165,165,0.2)','ic'=>'#fca5a5'],
             ]; @endphp
             @foreach($statCards as $c)

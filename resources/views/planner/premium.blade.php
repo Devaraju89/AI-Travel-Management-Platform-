@@ -8,7 +8,7 @@
 
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap');
-*{font-family:'Outfit',sans-serif;scroll-behavior:smooth}
+*{font-family:'Plus Jakarta Sans',sans-serif;scroll-behavior:smooth}
 
 .prem-page{
     background:#060713;
@@ -60,7 +60,7 @@
 
 .time-badge{
     background:rgba(255,111,0,.15);
-    color:#ffca28;
+    color:#fed7aa;
     padding:.3rem .75rem;
     border-radius:8px;
     font-size:.78rem;
@@ -89,7 +89,7 @@
 }
 .hotel-card:hover{
     transform:translateY(-3px);
-    border-color:#ff6f00;
+    border-color:var(--secondary);
     background:rgba(255,111,0,0.03);
 }
 
@@ -161,7 +161,7 @@
 }
 .partner-link-card:hover{
     transform:translateY(-4px);
-    border-color:#ff6f00;
+    border-color:var(--secondary);
     background:rgba(255,111,0,.04);
 }
 
@@ -183,7 +183,7 @@
         {{-- Premium Header --}}
         <div style="text-align:center;margin-bottom:3.5rem">
             <div class="success-badge"><i class="fas fa-crown"></i> COMPLETE PREMIUM AI ECOSYSTEM UNLOCKED</div>
-            <h1 style="font-size:clamp(2rem,5vw,3.25rem);font-weight:900;background:linear-gradient(135deg,#fff 20%,#ffca28 70%,#ff6f00 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:.5rem">
+            <h1 style="font-size:clamp(2rem,5vw,3.25rem);font-weight:900;background:linear-gradient(135deg,#fff 20%,#fed7aa 70%,var(--secondary) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:.5rem">
                 Your Optimized AI Travel Plan
             </h1>
             <p style="color:#b0c4de;font-size:1.1rem">
@@ -196,7 +196,7 @@
         <div class="glass" style="padding:0;overflow:hidden;border-color:rgba(255,111,0,.25);">
             <div class="qr-pass-container">
                 <div>
-                    <div style="display:inline-flex;align-items:center;gap:.5rem;background:rgba(255,111,0,.15);border:1px solid rgba(255,111,0,.3);padding:.3rem .8rem;border-radius:50px;font-size:.7rem;font-weight:800;color:#ffca28;margin-bottom:1rem;text-transform:uppercase;">
+                    <div style="display:inline-flex;align-items:center;gap:.5rem;background:rgba(255,111,0,.15);border:1px solid rgba(255,111,0,.3);padding:.3rem .8rem;border-radius:50px;font-size:.7rem;font-weight:800;color:#fed7aa;margin-bottom:1rem;text-transform:uppercase;">
                         <i class="fas fa-ticket-airline"></i> Verified Airport Boarding Pass
                     </div>
                     <h2 style="font-size:1.8rem;font-weight:900;color:#fff;margin-bottom:0.5rem;">TravelMate Boarding QR Pass</h2>
@@ -205,11 +205,11 @@
                     </p>
                     <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;font-size:0.85rem;color:#b0c4de;">
                         <div>
-                            <span style="display:block;font-size:0.7rem;color:#ff9100;font-weight:800;text-transform:uppercase;">Booking ID</span>
+                            <span style="display:block;font-size:0.7rem;color:#fb923c;font-weight:800;text-transform:uppercase;">Booking ID</span>
                             <strong style="color:#fff;font-size:0.95rem;">TMT-{{ strtoupper(\Illuminate\Support\Str::random(6)) }}-PREM</strong>
                         </div>
                         <div>
-                            <span style="display:block;font-size:0.7rem;color:#ff9100;font-weight:800;text-transform:uppercase;">Reference Token</span>
+                            <span style="display:block;font-size:0.7rem;color:#fb923c;font-weight:800;text-transform:uppercase;">Reference Token</span>
                             <strong style="color:#fff;font-size:0.95rem;">{{ $transaction }}</strong>
                         </div>
                     </div>
@@ -218,7 +218,7 @@
                     <div style="background:#fff;padding:1rem;border-radius:16px;box-shadow:0 10px 30px rgba(0,0,0,0.5);display:inline-block;">
                         <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=TravelMate-Pass-{{ $transaction }}" style="width:130px;height:130px;display:block;" alt="Booking QR Pass">
                     </div>
-                    <div style="font-size:.7rem;color:#ff9100;margin-top:0.75rem;font-weight:800;text-transform:uppercase;letter-spacing:1px;"><i class="fas fa-print"></i> Scan for Terminal Check</div>
+                    <div style="font-size:.7rem;color:#fb923c;margin-top:0.75rem;font-weight:800;text-transform:uppercase;letter-spacing:1px;"><i class="fas fa-print"></i> Scan for Terminal Check</div>
                 </div>
             </div>
         </div>
@@ -226,7 +226,7 @@
         {{-- ✅ ROUTE OPTIMIZATION & TELEMATICS MAP RADAR --}}
         <div class="glass">
             <div class="section-head">
-                <span><i class="fas fa-map-location-dot" style="color:#ff6f00;"></i></span> Interactive Route Optimization & Telematics Map
+                <span><i class="fas fa-map-location-dot" style="color:var(--secondary);"></i></span> Interactive Route Optimization & Telematics Map
             </div>
             <p style="color:#b0c4de;font-size:0.9rem;text-align:left;margin-top:-0.5rem;margin-bottom:1.5rem;">
                 Our active geocoding service has mapped optimal trajectories. Expand, zoom, and select markers to trace daily events live.
@@ -279,13 +279,13 @@
         {{-- ✅ DAY-BY-DAY HOUR-BY-HOUR ITINERARY --}}
         <div class="glass">
             <div class="section-head" style="text-align:left;">
-                <span><i class="fas fa-route" style="color:#ff6f00"></i></span> Full Hour-by-Hour Travel Itinerary
+                <span><i class="fas fa-route" style="color:var(--secondary)"></i></span> Full Hour-by-Hour Travel Itinerary
             </div>
             @foreach($aiPlan['days'] ?? [] as $day)
             <div class="day-card" style="text-align:left;">
-                <div style="font-size:1.15rem;font-weight:800;color:#ff6f00;margin-bottom:1rem;display:flex;justify-content:space-between;align-items:center;">
+                <div style="font-size:1.15rem;font-weight:800;color:var(--secondary);margin-bottom:1rem;display:flex;justify-content:space-between;align-items:center;">
                     <span>{{ $day['theme'] ?? 'Day '.$day['day_number'] }}</span>
-                    <span class="tag" style="background:rgba(255,111,0,0.15);color:#ffca28;font-size:0.7rem;padding:0.25rem 0.6rem;border-radius:6px;border:1px solid rgba(255,111,0,0.25);">DAY {{ $day['day_number'] }} SCHEDULE</span>
+                    <span class="tag" style="background:rgba(255,111,0,0.15);color:#fed7aa;font-size:0.7rem;padding:0.25rem 0.6rem;border-radius:6px;border:1px solid rgba(255,111,0,0.25);">DAY {{ $day['day_number'] }} SCHEDULE</span>
                 </div>
                 @foreach($day['activities'] ?? [] as $act)
                 <div class="activity-row">
@@ -307,15 +307,15 @@
         @if(!empty($aiPlan['hotels']))
         <div class="glass">
             <div class="section-head" style="text-align:left;">
-                <span><i class="fas fa-hotel" style="color:#ff6f00"></i></span> Premium Hotel Recommendations
+                <span><i class="fas fa-hotel" style="color:var(--secondary)"></i></span> Premium Hotel Recommendations
             </div>
             <div class="hotel-grid">
                 @foreach($aiPlan['hotels'] as $hotel)
                 <div class="hotel-card">
-                    <div style="width:64px;height:64px;border-radius:14px;background:rgba(255,111,0,.15);color:#ffca28;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:1.6rem;box-shadow:0 0 15px rgba(255,111,0,.15)"><i class="fas fa-hotel"></i></div>
+                    <div style="width:64px;height:64px;border-radius:14px;background:rgba(255,111,0,.15);color:#fed7aa;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:1.6rem;box-shadow:0 0 15px rgba(255,111,0,.15)"><i class="fas fa-hotel"></i></div>
                     <div style="flex:1">
                         <div style="color:#fff;font-weight:800;font-size:1.05rem;">{{ $hotel['name'] ?? 'Premium Hotel' }}</div>
-                        <div style="color:#b0c4de;font-size:.82rem;margin-top:0.2rem;">{{ $hotel['type'] ?? 'Luxury Stay' }} · <span style="color:#ffca28;">⭐ {{ $hotel['rating'] ?? '4.8' }} Ratings</span></div>
+                        <div style="color:#b0c4de;font-size:.82rem;margin-top:0.2rem;">{{ $hotel['type'] ?? 'Luxury Stay' }} · <span style="color:#fed7aa;">⭐ {{ $hotel['rating'] ?? '4.8' }} Ratings</span></div>
                         @if(!empty($hotel['highlights']))
                         <div style="margin-top:.6rem">
                             @foreach(array_slice($hotel['highlights'],0,3) as $h)
@@ -340,9 +340,9 @@
             @if(!empty($aiPlan['weather']))
             <div class="glass" style="margin-bottom:0;">
                 <div class="section-head" style="font-size:1.1rem;border-bottom:none;margin-bottom:0.75rem;">
-                    <span><i class="fas fa-cloud-sun" style="color:#ffca28"></i></span> Weather Guide
+                    <span><i class="fas fa-cloud-sun" style="color:#fed7aa"></i></span> Weather Guide
                 </div>
-                <div style="color:#ffca28;font-weight:800;font-size:0.9rem;margin-bottom:.25rem;">Best time to travel</div>
+                <div style="color:#fed7aa;font-weight:800;font-size:0.9rem;margin-bottom:.25rem;">Best time to travel</div>
                 <div style="color:#fff;font-size:1rem;font-weight:700;margin-bottom:0.5rem;">{{ $aiPlan['weather']['best_time'] ?? 'October to April' }}</div>
                 <div style="font-size:1.75rem;font-weight:900;color:#00ff66;margin-bottom:.5rem;">{{ $aiPlan['weather']['temperature'] ?? '26–30°C' }}</div>
                 <div style="color:#b0c4de;font-size:.82rem;line-height:1.5;">{{ $aiPlan['weather']['tip'] ?? '' }}</div>
@@ -384,7 +384,7 @@
 
         {{-- Direct Action Buttons --}}
         <div style="display:flex;gap:1rem;justify-content:center;margin-top:2.5rem;flex-wrap:wrap;padding-bottom:2rem;">
-            <a href="{{ route('planner.index') }}" class="btn btn-primary" style="padding:1rem 2.5rem;border-radius:50px;font-weight:800;background:linear-gradient(135deg,#ffca28,#ff6f00);box-shadow:0 4px 15px rgba(255,111,0,0.35);color:#fff;text-decoration:none;">
+            <a href="{{ route('planner.index') }}" class="btn btn-primary" style="padding:1rem 2.5rem;border-radius:50px;font-weight:800;background:linear-gradient(135deg,#fed7aa,var(--secondary));box-shadow:0 4px 15px rgba(255,111,0,0.35);color:#fff;text-decoration:none;">
                 <i class="fas fa-rocket"></i> Plan Another Route
             </a>
             <a href="{{ route('dashboard') }}" class="btn btn-outline" style="padding:1rem 2.5rem;border-radius:50px;border:1px solid rgba(255,255,255,0.15);color:#fff;font-weight:700;text-decoration:none;">

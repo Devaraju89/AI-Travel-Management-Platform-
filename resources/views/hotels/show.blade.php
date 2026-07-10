@@ -28,7 +28,7 @@
     <div class="hotel-hero-overlay"></div>
     <div class="hotel-hero-content">
         <div style="font-size:.8rem;color:#b0c4de;margin-bottom:.4rem">
-            @for($i=0;$i<($hotel->star_rating??4);$i++)<span style="color:#ffca28">★</span>@endfor
+            @for($i=0;$i<($hotel->star_rating??4);$i++)<span style="color:#fed7aa">★</span>@endfor
         </div>
         <h1 style="font-size:2.5rem;font-weight:900;color:#fff;margin-bottom:.5rem">{{ $hotel->name }}</h1>
         <div style="color:#b0c4de;display:flex;align-items:center;gap:.5rem;font-size:.9rem">
@@ -50,7 +50,7 @@
 
             <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:1rem;margin-top:1.5rem">
                 <div style="text-align:center;background:rgba(0,0,0,.2);border-radius:12px;padding:1rem">
-                    <div style="font-size:1.5rem;color:#ffca28;font-weight:900">{{ $hotel->avg_rating ?? '4.5' }}</div>
+                    <div style="font-size:1.5rem;color:#fed7aa;font-weight:900">{{ $hotel->avg_rating ?? '4.5' }}</div>
                     <div style="font-size:.75rem;color:#b0c4de">Rating</div>
                 </div>
                 <div style="text-align:center;background:rgba(0,0,0,.2);border-radius:12px;padding:1rem">

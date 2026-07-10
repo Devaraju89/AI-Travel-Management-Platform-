@@ -64,7 +64,7 @@
     {{-- LEFT: Payment Panel --}}
     <div class="pay-card">
         <div class="pay-title">🔐 Secure Checkout</div>
-        <div class="pay-subtitle">Booking ref: <strong style="color:#ffca28">{{ $booking->booking_reference }}</strong></div>
+        <div class="pay-subtitle">Booking ref: <strong style="color:#fed7aa">{{ $booking->booking_reference }}</strong></div>
 
         {{-- Accepted Methods --}}
         <div class="section-label">Accepted Payment Methods</div>
@@ -104,7 +104,7 @@
         </div>
 
         {{-- Test Credentials hint --}}
-        <div style="margin-top:1.5rem;background:rgba(255,202,40,.08);border:1px solid rgba(255,202,40,.25);border-radius:12px;padding:1.2rem;font-size:.82rem;color:#ffca28;">
+        <div style="margin-top:1.5rem;background:rgba(255,202,40,.08);border:1px solid rgba(255,202,40,.25);border-radius:12px;padding:1.2rem;font-size:.82rem;color:#fed7aa;">
             <div style="font-weight:700;margin-bottom:.75rem"><i class="fas fa-flask"></i> Test Mode Credentials</div>
             <div style="display:grid;grid-template-columns:1fr 1fr;gap:.75rem;">
                 <div style="background:rgba(0,0,0,.3);border-radius:8px;padding:.75rem;">
@@ -137,7 +137,7 @@
 
         <div class="summary-row">
             <span class="summary-label">Booking Ref</span>
-            <span class="summary-value" style="font-size:.82rem;color:#ffca28">{{ $booking->booking_reference }}</span>
+            <span class="summary-value" style="font-size:.82rem;color:#fed7aa">{{ $booking->booking_reference }}</span>
         </div>
         <div class="summary-row">
             <span class="summary-label">Travelers</span>

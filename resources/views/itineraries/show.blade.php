@@ -179,7 +179,7 @@
                             @if(isset($day['day_cost']) && $day['day_cost'] > 0)
                             <span style="background:rgba(0, 200, 83, 0.12); border:1px solid rgba(0, 200, 83, 0.3); color:#00ff66; padding:0.4rem 1rem; border-radius:50px; font-size:0.85rem; font-weight:800; letter-spacing:0.5px; box-shadow:0 0 10px rgba(0, 200, 83, 0.1);"><i class="fas fa-rupee-sign"></i> {{ number_format($day['day_cost']) }}</span>
                             @endif
-                            <i class="fas fa-chevron-down toggle-icon" style="color:#a855f7; transition:transform 0.4s; font-size:1.1rem; transform:{{ $index === 0 ? 'rotate(180deg)' : 'rotate(0)' }};"></i>
+                            <i class="fas fa-chevron-down toggle-icon" style="color:#6ee7b7; transition:transform 0.4s; font-size:1.1rem; transform:{{ $index === 0 ? 'rotate(180deg)' : 'rotate(0)' }};"></i>
                         </div>
                     </div>
                     
@@ -244,7 +244,7 @@
             
             <div style="position:relative; z-index:1;">
                 <div style="width:70px; height:70px; margin:0 auto 1.5rem; background:rgba(255,111,0,0.1); border-radius:50%; display:flex; align-items:center; justify-content:center; border:1px solid rgba(255,111,0,0.25); animation: pulse 2s infinite;">
-                    <i class="fas fa-lock" style="color:#ff6f00; font-size:2rem;"></i>
+                    <i class="fas fa-lock" style="color:var(--secondary); font-size:2rem;"></i>
                 </div>
                 <h3 style="font-family:'Playfair Display',serif; font-size:2.2rem; font-weight:900; color:#fff; margin-bottom:0.75rem; text-shadow:0 2px 10px rgba(0,0,0,0.2);">🔒 Premium Itinerary Features Locked</h3>
                 <p style="color:#b0c4de; max-width:650px; margin:0 auto 2rem; font-size:1.05rem; line-height:1.7;">
@@ -257,14 +257,14 @@
                     <span style="display:flex; align-items:center; gap:0.5rem;"><i class="fas fa-check-circle" style="color:#00ff66;"></i> AI Financial Breakdown</span>
                 </div>
 
-                <button id="pay-btn" onclick="initiateRazorpayPayment()" class="btn btn-primary" style="padding:1.1rem 3rem; font-size:1.2rem; font-weight:800; border-radius:50px; border:none; box-shadow:0 8px 25px rgba(255,111,0,0.4); cursor:pointer; transition:transform 0.2s, box-shadow 0.2s; background: linear-gradient(135deg, #ffca28, #ff6f00); color: #fff;" onmouseover="this.style.transform='scale(1.03)'; this.style.boxShadow='0 12px 30px rgba(255,111,0,0.6)';" onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='0 8px 25px rgba(255,111,0,0.4)';">
+                <button id="pay-btn" onclick="initiateRazorpayPayment()" class="btn btn-primary" style="padding:1.1rem 3rem; font-size:1.2rem; font-weight:800; border-radius:50px; border:none; box-shadow:0 8px 25px rgba(255,111,0,0.4); cursor:pointer; transition:transform 0.2s, box-shadow 0.2s; background: linear-gradient(135deg, #fed7aa, var(--secondary)); color: #fff;" onmouseover="this.style.transform='scale(1.03)'; this.style.boxShadow='0 12px 30px rgba(255,111,0,0.6)';" onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='0 8px 25px rgba(255,111,0,0.4)';">
                     <span id="btn-spinner" style="display:none; margin-right:0.5rem;"><i class="fas fa-spinner fa-spin"></i></span>
                     <i id="btn-icon" class="fas fa-unlock" style="margin-right:0.5rem;"></i>
                     <span id="btn-text">To unlock the features make this payment</span>
                 </button>
 
                 <div style="margin-top:1.75rem; font-size:0.85rem; color:#8fa0c0; background:rgba(255, 255, 255, 0.04); padding:0.75rem 1.5rem; border-radius:8px; display:inline-block; border:1px solid rgba(255, 255, 255, 0.08);">
-                    <i class="fas fa-info-circle" style="color:#ffca28; margin-right:0.25rem;"></i> <strong>Test Mode:</strong> Use card <code style="color:#00d4aa; background:rgba(0,0,0,0.25); padding:0.15rem 0.4rem; border-radius:4px;">4111 1111 1111 1111</code> to complete mock payment successfully.
+                    <i class="fas fa-info-circle" style="color:#fed7aa; margin-right:0.25rem;"></i> <strong>Test Mode:</strong> Use card <code style="color:#00d4aa; background:rgba(0,0,0,0.25); padding:0.15rem 0.4rem; border-radius:4px;">4111 1111 1111 1111</code> to complete mock payment successfully.
                 </div>
             </div>
         </div>
@@ -323,7 +323,7 @@
         width: 24px;
         height: 24px;
         border: 3px solid rgba(255,255,255,.2);
-        border-top-color: #ff6f00;
+        border-top-color: var(--secondary);
         border-radius: 50%;
         animation: spin .8s linear infinite;
     }
@@ -417,7 +417,7 @@
                     email: data.email,
                     contact: '9999999999', // Prefill mock contact to bypass saved-card verification
                 },
-                theme: { color: '#ff6f00' },
+                theme: { color: 'var(--secondary)' },
                 modal: {
                     ondismiss: function() {
                         btn.disabled = false;

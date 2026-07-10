@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title','AI Travel Planner Portal — TravelMate')
+@section('title','AI Travel Planner Portal')
 @section('content')
 
 {{-- Leaflet Maps Assets --}}
@@ -7,119 +7,94 @@
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap');
-*{font-family:'Outfit',sans-serif;scroll-behavior:smooth}
+/* CLEAN SAAS STYLES FOR PLANNER */
+.planner-page { background: var(--bg-body); padding: 3rem 1.5rem 6rem; min-height: 100vh; }
+.inner { max-width: 1200px; margin: 0 auto; }
+.glass { background: #fff; border: 1px solid var(--border); border-radius: 16px; padding: 2.5rem; box-shadow: var(--shadow-sm); }
+.form-row { display: grid; grid-template-columns: 1.2fr 1.2fr 1fr 1fr 1fr; gap: 1rem; align-items: end; }
+@media(max-width:900px) { .form-row { grid-template-columns: 1fr 1fr; } }
+.f-label { font-size: 0.75rem; font-weight: 600; color: var(--text-muted); text-transform: uppercase; margin-bottom: 0.4rem; display: block; }
+.f-input { width: 100%; background: #f8fafc; border: 1px solid var(--border); color: var(--text-main); padding: 0.8rem; border-radius: 8px; font-size: 0.95rem; outline: none; transition: 0.2s; font-family: 'Inter', sans-serif;}
+.f-input:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(13,148,136,0.1); background: #fff;}
+.calc-btn { padding: 1rem 2.5rem; border: none; border-radius: 8px; background: var(--primary); color: #fff; font-weight: 600; font-size: 1rem; cursor: pointer; transition: 0.2s; white-space: nowrap; }
+.calc-btn:hover { background: var(--primary-hover); }
 
-.planner-page{
-    background:#060713;
-    color:#fff;
-    min-height:100vh;
-    padding:4rem 1.5rem 6rem;
-    position:relative;
-    overflow:hidden;
-}
-.inner{max-width:1200px;margin:0 auto}
+.results { display: none; margin-top: 3rem; animation: fadeUp 0.5s ease; }
+@keyframes fadeUp { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
 
-.glass{
-    background:rgba(255,255,255,.02);
-    backdrop-filter:blur(20px);
-    border:1px solid rgba(255,255,255,.08);
-    border-radius:24px;
-    padding:2.5rem;
-    box-shadow:0 20px 50px rgba(0,0,0,0.5);
-}
-.form-row{display:grid;grid-template-columns:1.2fr 1.2fr 1fr 1fr 1fr;gap:1rem;align-items:end}
-.f-label{font-size:.72rem;font-weight:700;color:#ff9100;text-transform:uppercase;letter-spacing:1px;margin-bottom:.4rem;display:block}
-.f-input{width:100%;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,0.1);color:#fff;padding:.75rem;border-radius:12px;font-size:.9rem;outline:none;transition:.2s}
-.f-input:focus{border-color:#ff6f00;background:rgba(255,255,255,0.08)}
-.f-input option{background:#0d0f22}
+.transport-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem; margin-bottom: 2rem; }
+@media(max-width:900px) { .transport-grid { grid-template-columns: 1fr; } }
+.transport-card { background: #fff; border: 1px solid var(--border); border-radius: 12px; padding: 1.5rem; text-align: center; transition: 0.3s; cursor: pointer; box-shadow: var(--shadow-sm); }
+.transport-card:hover, .transport-card.best { border-color: var(--primary); box-shadow: var(--shadow-md); }
+.transport-card.best::before { content: '✨ Best Value'; display: block; background: #f0fdfa; color: var(--primary); font-size: 0.7rem; font-weight: 700; padding: 0.2rem 0.6rem; border-radius: 6px; margin: 0 auto 0.75rem auto; text-transform: uppercase; width: max-content; }
 
-.calc-btn{padding:1rem 2.5rem;border:none;border-radius:50px;background:linear-gradient(135deg,#ffca28,#ff6f00);color:#fff;font-weight:800;font-size:1rem;cursor:pointer;transition:.3s;white-space:nowrap;box-shadow:0 4px 15px rgba(255,111,0,.35)}
-.calc-btn:hover{transform:translateY(-2px);box-shadow:0 8px 25px rgba(255,111,0,.5)}
+.total-banner { background: #f0fdfa; border: 1px solid #ccfbf1; border-radius: 12px; padding: 1.5rem; display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; flex-wrap: wrap; gap: 1rem; }
 
-.results{display:none;margin-top:3rem;animation:fadeUp .5s ease}
-@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+.premium-lock-container { background: #fff; border: 1px dashed var(--border); border-radius: 16px; padding: 3rem; text-align: center; margin-top: 2.5rem; position: relative; box-shadow: var(--shadow-sm); }
+.unlock-btn { padding: 1rem 2.5rem; border: none; border-radius: 8px; background: #0f172a; color: #fff; font-weight: 600; font-size: 1.05rem; cursor: pointer; transition: 0.3s; }
+.unlock-btn:hover { background: #1e293b; }
 
-.transport-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.25rem;margin-bottom:2rem}
-.transport-card{background:rgba(255,255,255,.02);border:2px solid rgba(255,255,255,.05);border-radius:18px;padding:1.5rem;text-align:center;transition:.3s;cursor:pointer}
-.transport-card:hover,.transport-card.best{border-color:#00ff66;background:rgba(0,255,102,.04)}
-.transport-card.best::before{content:'✨ Best Value';display:block;background:#00ff66;color:#03040a;font-size:.65rem;font-weight:900;padding:.2rem .6rem;border-radius:6px;margin-bottom:.75rem;width:fit-content;margin-left:auto;margin-right:auto;text-transform:uppercase}
+.gated-blur-element { filter: blur(4px); pointer-events: none; opacity: 0.6; user-select: none; }
+.lock-overlay-badge { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; background: rgba(255,255,255,0.7); backdrop-filter: blur(2px); z-index: 10; border-radius: 12px; padding: 1rem; text-align: center; }
 
-.cost-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-bottom:2rem}
-.cost-card{background:rgba(255,255,255,.01);border:1px solid rgba(255,255,255,.05);border-radius:14px;padding:1.25rem;text-align:center}
+.partner-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 1rem; margin-top: 2rem; }
+.partner-card { background: #fff; border: 1px solid var(--border); border-radius: 12px; padding: 1.25rem; text-align: center; transition: 0.3s; position: relative; }
+.partner-card:hover { border-color: var(--primary); box-shadow: var(--shadow-sm); }
 
-.total-banner{background:linear-gradient(135deg,rgba(255,111,0,.15),rgba(255,202,40,.08));border:1px solid rgba(255,111,0,.25);border-radius:16px;padding:1.5rem;display:flex;justify-content:space-between;align-items:center;margin-bottom:2rem;flex-wrap:wrap;gap:1rem}
+.timeline-panel { position: relative; padding-left: 2rem; border-left: 2px solid #e2e8f0; text-align: left; margin-top: 1.5rem; }
+.timeline-card { position: relative; margin-bottom: 2rem; }
+.timeline-card::before { content: ''; position: absolute; left: -2.35rem; top: 0.25rem; width: 14px; height: 14px; border-radius: 50%; background: #fff; border: 3px solid var(--primary); }
 
-.premium-lock-container{background:rgba(255,202,40,.04);border:1px solid rgba(255,202,40,.2);border-radius:20px;padding:2.5rem;text-align:center;margin-top:2.5rem;position:relative}
-.unlock-btn{padding:1rem 2.5rem;border:none;border-radius:50px;background:linear-gradient(135deg,#ffca28,#ff6f00);color:#0a0b0f;font-weight:800;font-size:1.05rem;cursor:pointer;transition:.3s;box-shadow:0 5px 20px rgba(255,202,40,.35)}
-.unlock-btn:hover{transform:translateY(-2px);box-shadow:0 8px 25px rgba(255,202,40,.5)}
+.feature-check { display: flex; align-items: center; gap: 0.5rem; font-size: 0.9rem; color: var(--text-main); margin: 0.5rem 0; }
+.feature-check.locked { color: var(--text-muted); text-decoration: line-through; }
 
-.gated-blur-element{filter:blur(4px);pointer-events:none;opacity:0.35;user-select:none}
-.lock-overlay-badge{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;background:rgba(6,7,19,0.5);z-index:10;border-radius:12px;padding:1rem;text-align:center}
+.spinner { display: none; width: 24px; height: 24px; border: 3px solid #e2e8f0; border-top-color: var(--primary); border-radius: 50%; animation: spin 0.8s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
 
-.partner-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:1rem;margin-top:2.5rem}
-.partner-card{background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.06);border-radius:16px;padding:1.25rem;text-align:center;transition:.3s;text-decoration:none;position:relative}
-.partner-card:hover{transform:translateY(-4px);border-color:rgba(255,111,0,.3);background:rgba(255,111,0,.03)}
-
-.feature-check{display:flex;align-items:center;gap:.5rem;font-size:.85rem;color:#b0c4de;margin:.4rem 0}
-.feature-check.locked{color:#555;text-decoration:line-through}
-
-.spinner{display:none;width:24px;height:24px;border:3px solid rgba(255,255,255,.2);border-top-color:#ff6f00;border-radius:50%;animation:spin .8s linear infinite}
-@keyframes spin{to{transform:rotate(360deg)}}
-
-.success-overlay{display:none;position:fixed;inset:0;background:rgba(6,7,19,.9);z-index:9999;align-items:center;justify-content:center}
-.success-box{background:linear-gradient(135deg,#0a1628,#0f1f3d);border:1px solid rgba(0,255,102,.3);border-radius:24px;padding:3rem;text-align:center;max-width:400px;animation:popIn .4s ease}
-@keyframes popIn{from{transform:scale(.8);opacity:0}to{transform:scale(1);opacity:1}}
-
-.timeline-panel{position:relative;padding-left:2rem;border-left:2px solid rgba(255,111,0,.2);text-align:left}
-.timeline-card{position:relative;margin-bottom:2rem}
-.timeline-card::before{content:'';position:absolute;left:-2.6rem;top:0.25rem;width:18px;height:18px;border-radius:50%;background:#060713;border:3px solid #ff6f00}
-
-@media(max-width:900px){.form-row{grid-template-columns:1fr 1fr}.transport-grid,.cost-grid{grid-template-columns:1fr}}
+.success-overlay { display: none; position: fixed; inset: 0; background: rgba(15,23,42,0.9); z-index: 9999; align-items: center; justify-content: center; }
+.success-box { background: #fff; border-radius: 16px; padding: 3rem; text-align: center; max-width: 400px; animation: popIn 0.4s ease; box-shadow: var(--shadow-lg); }
+@keyframes popIn { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
 </style>
 
 <div class="planner-page">
-    <div class="bg-orb" style="position: absolute; top: -10%; left: 50%; transform: translateX(-50%); width: 800px; height: 800px; background: radial-gradient(circle, rgba(255, 111, 0, 0.05) 0%, transparent 70%); pointer-events: none; z-index: 0;"></div>
-
-    <div class="inner" style="position: relative; z-index: 1;">
-
+    <div class="inner">
         {{-- Header Section --}}
-        <div style="text-align:center;margin-bottom:3.5rem">
-            <div style="display:inline-flex;align-items:center;gap:.5rem;background:rgba(255,111,0,.15);border:1px solid rgba(255,111,0,.3);padding:.4rem 1.2rem;border-radius:50px;margin-bottom:1rem">
-                <span style="color:#ffca28;font-size:.8rem;font-weight:800"><i class="fas fa-sparkles"></i> REGISTERED TRAVELER SUITE</span>
+        <div style="text-align: center; margin-bottom: 3.5rem;">
+            <div style="display: inline-flex; align-items: center; gap: 0.5rem; background: #f0fdfa; border: 1px solid #ccfbf1; padding: 0.4rem 1.2rem; border-radius: 50px; margin-bottom: 1rem;">
+                <span style="color: var(--primary); font-size: 0.8rem; font-weight: 700;"><i class="fas fa-sparkles"></i> AI INTELLIGENCE PLANNER</span>
             </div>
-            <h1 style="font-size:clamp(2rem,5vw,3rem);font-weight:900;color:#fff;margin-bottom:.75rem">AI Intelligence Planner</h1>
-            <p style="color:#b0c4de;font-size:1.1rem;max-width:600px;margin:0 auto">Plan your route dynamically with custom Chart.js visual graphics & weather forecast modules.</p>
+            <h1 style="font-size: clamp(2rem, 5vw, 3rem); font-weight: 800; color: var(--text-main); margin-bottom: 0.75rem; letter-spacing: -0.5px;">Plan Your Perfect Trip</h1>
+            <p style="color: var(--text-muted); font-size: 1.1rem; max-width: 600px; margin: 0 auto;">Generate dynamic itineraries with advanced travel estimates, weather forecasts, and premium booking tools.</p>
         </div>
 
         {{-- Interactive Form Panel --}}
-        <div class="glass" style="margin-bottom:2.5rem">
-            <div style="font-size:.8rem;font-weight:800;color:#ff9100;text-transform:uppercase;letter-spacing:2px;margin-bottom:1.5rem"><i class="fas fa-sliders"></i> Adjust Navigation Targets</div>
+        <div class="glass" style="margin-bottom: 2.5rem;">
+            <h2 style="font-size: 1.1rem; font-weight: 700; color: var(--text-main); margin-bottom: 1.5rem;"><i class="fas fa-sliders-h" style="color: var(--primary);"></i> Travel Parameters</h2>
             <div class="form-row">
-                <div style="position:relative">
-                    <label class="f-label"><i class="fas fa-plane-departure"></i> From</label>
+                <div style="position: relative;">
+                    <label class="f-label">From</label>
                     <input type="text" id="p_from" class="f-input" placeholder="e.g. Delhi, Mumbai" value="Mumbai, India" autocomplete="off">
-                    <div id="from-autocomplete" style="display:none;position:absolute;top:100%;left:0;right:0;background:#151538;border:1px solid rgba(255,111,0,0.3);border-radius:12px;box-shadow:0 15px 35px rgba(0,0,0,0.6);z-index:9999;max-height:220px;overflow-y:auto;margin-top:.25rem"></div>
+                    <div id="from-autocomplete" style="display:none;position:absolute;top:100%;left:0;right:0;background:#fff;border:1px solid var(--border);border-radius:8px;box-shadow:var(--shadow-md);z-index:9999;max-height:220px;overflow-y:auto;margin-top:.25rem"></div>
                 </div>
-                <div style="position:relative">
-                    <label class="f-label"><i class="fas fa-plane-arrival"></i> To</label>
+                <div style="position: relative;">
+                    <label class="f-label">To</label>
                     <input type="text" id="p_to" class="f-input" placeholder="e.g. Goa, Paris" value="Goa, India" autocomplete="off">
-                    <div id="to-autocomplete" style="display:none;position:absolute;top:100%;left:0;right:0;background:#151538;border:1px solid rgba(255,111,0,0.3);border-radius:12px;box-shadow:0 15px 35px rgba(0,0,0,0.6);z-index:9999;max-height:220px;overflow-y:auto;margin-top:.25rem"></div>
+                    <div id="to-autocomplete" style="display:none;position:absolute;top:100%;left:0;right:0;background:#fff;border:1px solid var(--border);border-radius:8px;box-shadow:var(--shadow-md);z-index:9999;max-height:220px;overflow-y:auto;margin-top:.25rem"></div>
                 </div>
                 <div>
-                    <label class="f-label"><i class="fas fa-users"></i> Travelers</label>
+                    <label class="f-label">Travelers</label>
                     <select id="p_travelers" class="f-input">
                         @foreach(range(1,10) as $i)<option value="{{ $i }}" {{ $i==2?'selected':'' }}>{{ $i }} Person{{ $i>1?'s':'' }}</option>@endforeach
                     </select>
                 </div>
                 <div>
-                    <label class="f-label"><i class="fas fa-calendar"></i> Days</label>
+                    <label class="f-label">Days</label>
                     <select id="p_days" class="f-input">
                         @foreach([1,2,3,4,5,7,10] as $d)<option value="{{ $d }}" {{ $d==3?'selected':'' }}>{{ $d }} Days</option>@endforeach
                     </select>
                 </div>
                 <div>
-                    <label class="f-label"><i class="fas fa-wallet"></i> Budget Tier</label>
+                    <label class="f-label">Budget Tier</label>
                     <select id="p_budget" class="f-input">
                         <option value="budget">💰 Budget</option>
                         <option value="standard" selected>⭐ Standard</option>
@@ -127,9 +102,9 @@
                     </select>
                 </div>
             </div>
-            <div style="margin-top:1.5rem;display:flex;gap:1.5rem;align-items:center;">
+            <div style="margin-top: 1.5rem; display: flex; gap: 1.5rem; align-items: center;">
                 <button class="calc-btn" onclick="calculate()" id="calc-btn">
-                    <i class="fas fa-robot"></i> Calculate AI Plan
+                    <i class="fas fa-robot"></i> Generate AI Plan
                 </button>
                 <div class="spinner" id="spinner"></div>
             </div>
@@ -139,134 +114,91 @@
         <div class="results" id="results">
 
             {{-- 1. Transit Comparison --}}
-            <div style="margin-bottom:2rem">
-                <div style="font-size:1.15rem;font-weight:800;color:#fff;margin-bottom:1.25rem"><i class="fas fa-route" style="color: #ff9100; margin-right: 0.5rem;"></i> Transit Cost Estimator Matrix</div>
+            <div style="margin-bottom: 2.5rem;">
+                <h3 style="font-size: 1.25rem; font-weight: 700; color: var(--text-main); margin-bottom: 1.25rem;"><i class="fas fa-route" style="color: var(--primary);"></i> Transit Cost Estimator</h3>
                 <div class="transport-grid" id="transport-cards"></div>
             </div>
 
             {{-- 2. Weather Alert & Attractions --}}
-            <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-bottom:2rem">
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 2.5rem;">
                 {{-- Weather Alert Card --}}
-                <div class="glass" style="padding:1.5rem;border-color:rgba(255,111,0,.15);text-align:left;">
-                    <div style="font-size:1rem;font-weight:800;color:#fff;margin-bottom:1rem;display:flex;align-items:center;gap:.5rem">
-                        <i class="fas fa-cloud-sun" style="color:#ffca28"></i> Local Meteorology Radar Index
-                    </div>
-                    <div style="background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.05);padding:1rem;border-radius:12px;display:flex;justify-content:space-between;align-items:center">
+                <div class="glass" style="padding: 1.5rem;">
+                    <h3 style="font-size: 1.1rem; font-weight: 700; color: var(--text-main); margin-bottom: 1.25rem;"><i class="fas fa-cloud-sun" style="color: #0ea5e9;"></i> Meteorology Forecast</h3>
+                    <div style="background: #f8fafc; border: 1px solid var(--border); padding: 1.25rem; border-radius: 12px; display: flex; justify-content: space-between; align-items: center;">
                         <div>
-                            <div style="font-size:1.5rem;font-weight:900;color:#fff" id="weather_temp">28°C</div>
-                            <div style="font-size:.78rem;color:#b0c4de">Scattered Clouds · Safe Travel Rating</div>
+                            <div style="font-size: 1.8rem; font-weight: 800; color: var(--text-main);" id="weather_temp">28°C</div>
+                            <div style="font-size: 0.85rem; color: var(--text-muted);">Scattered Clouds · Safe Travel Rating</div>
                         </div>
-                        <span class="tag" style="background:rgba(0,255,102,.1);color:#00ff66;font-size:.7rem;padding:.3rem .6rem;border-radius:6px;font-weight:800;border:1px solid rgba(0,255,102,.2)">OPTIONAL</span>
+                        <span style="background: #ecfdf5; color: #059669; font-size: 0.75rem; padding: 0.3rem 0.6rem; border-radius: 6px; font-weight: 600;">OPTIONAL</span>
                     </div>
-                    <p style="font-size:.8rem;color:#b0c4de;margin-top:0.75rem;line-height:1.5;"><i class="fas fa-circle-info" style="color:#ffca28"></i> <b>AI Meteorological Tip</b>: Carry comfortable clothing. Standard UV index indices recorded. Perfect conditions for outdoor activities.</p>
+                    <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 1rem; line-height: 1.6;"><i class="fas fa-info-circle" style="color: #0ea5e9;"></i> <b>AI Tip</b>: Carry comfortable clothing. Standard UV index recorded. Perfect conditions for outdoor activities.</p>
                 </div>
 
                 {{-- Nearby Attractions Card --}}
-                <div class="glass" style="padding:1.5rem;border-color:rgba(255,111,0,.15);text-align:left;">
-                    <div style="font-size:1rem;font-weight:800;color:#fff;margin-bottom:1rem;display:flex;align-items:center;gap:.5rem">
-                        <i class="fas fa-location-crosshairs" style="color:#00ff66"></i> Local Attraction Map Pins
-                    </div>
-                    <div style="display:flex;flex-direction:column;gap:0.5rem">
-                        <div style="background:rgba(255,255,255,0.02);padding:.6rem 1rem;border-radius:10px;display:flex;justify-content:space-between;font-size:.82rem;">
-                            <span style="color:#fff;font-weight:700">🏰 Historic Coastal Fort</span>
-                            <span style="color:#ffca28">1.2 km away</span>
+                <div class="glass" style="padding: 1.5rem;">
+                    <h3 style="font-size: 1.1rem; font-weight: 700; color: var(--text-main); margin-bottom: 1.25rem;"><i class="fas fa-location-dot" style="color: #f43f5e;"></i> Top Attractions</h3>
+                    <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+                        <div style="background: #f8fafc; border: 1px solid var(--border); padding: 0.8rem 1rem; border-radius: 8px; display: flex; justify-content: space-between; align-items: center;">
+                            <span style="color: var(--text-main); font-weight: 600; font-size: 0.9rem;">🏰 Historic Coastal Fort</span>
+                            <span style="color: var(--text-muted); font-size: 0.8rem;">1.2 km away</span>
                         </div>
-                        <div style="background:rgba(255,255,255,0.02);padding:.6rem 1rem;border-radius:10px;display:flex;justify-content:space-between;font-size:.82rem;">
-                            <span style="color:#fff;font-weight:700">🛍️ Lively Street Bazaar</span>
-                            <span style="color:#ffca28">2.5 km away</span>
+                        <div style="background: #f8fafc; border: 1px solid var(--border); padding: 0.8rem 1rem; border-radius: 8px; display: flex; justify-content: space-between; align-items: center;">
+                            <span style="color: var(--text-main); font-weight: 600; font-size: 0.9rem;">🛍️ Lively Street Bazaar</span>
+                            <span style="color: var(--text-muted); font-size: 0.8rem;">2.5 km away</span>
                         </div>
                     </div>
-                    <p style="font-size:.8rem;color:#b0c4de;margin-top:0.75rem;line-height:1.5;"><i class="fas fa-heart-pulse" style="color:#00ff66"></i> Highly recommended by 1,200+ verified TravelMate explorers.</p>
+                    <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 1rem;"><i class="fas fa-heart" style="color: #f43f5e;"></i> Recommended by 1,200+ travelers.</p>
                 </div>
             </div>
 
             {{-- 3. Budget & Expense Chartjs Section --}}
-            <div style="margin-bottom:2rem">
-                <div style="font-size:1.15rem;font-weight:800;color:#fff;margin-bottom:1.25rem"><i class="fas fa-chart-pie" style="color: #ff9100; margin-right: 0.5rem;"></i> Predictive Spending & Cost Analysis</div>
-                <div class="glass" style="display:grid;grid-template-columns:1.5fr 1fr;gap:2rem;padding:2rem;">
-                    {{-- Spending Trend Line --}}
+            <div style="margin-bottom: 2.5rem;">
+                <h3 style="font-size: 1.25rem; font-weight: 700; color: var(--text-main); margin-bottom: 1.25rem;"><i class="fas fa-chart-pie" style="color: #8b5cf6;"></i> Predictive Cost Analysis</h3>
+                <div class="glass" style="display: grid; grid-template-columns: 1.5fr 1fr; gap: 2.5rem; padding: 2rem;">
                     <div>
-                        <h4 style="font-size:1rem;font-weight:700;margin-bottom:1.25rem;color:#fff;text-align:left;"><i class="fas fa-chart-line" style="color:#ff9100"></i> Local Budget Trend Projection</h4>
-                        <div style="height:220px;position:relative;">
-                            <canvas id="plannerLineChart"></canvas>
-                        </div>
+                        <h4 style="font-size: 1rem; font-weight: 600; margin-bottom: 1.25rem; color: var(--text-main);">Budget Trend Projection</h4>
+                        <div style="height: 220px; position: relative;"><canvas id="plannerLineChart"></canvas></div>
                     </div>
-                    {{-- Allocation Doughnut --}}
                     <div>
-                        <h4 style="font-size:1rem;font-weight:700;margin-bottom:1.25rem;color:#fff;text-align:left;"><i class="fas fa-circle-notch" style="color:#00ff66"></i> Cost Breakdown</h4>
-                        <div style="height:220px;position:relative;">
-                            <canvas id="plannerDoughnutChart"></canvas>
-                        </div>
+                        <h4 style="font-size: 1rem; font-weight: 600; margin-bottom: 1.25rem; color: var(--text-main);">Cost Breakdown</h4>
+                        <div style="height: 220px; position: relative;"><canvas id="plannerDoughnutChart"></canvas></div>
                     </div>
                 </div>
             </div>
 
             {{-- 4. Day-Wise Basic Itinerary --}}
-            <div class="glass" style="margin-bottom:2rem;text-align:left;">
-                <div style="font-size:1.15rem;font-weight:800;color:#fff;border-bottom:1px solid rgba(255,255,255,0.08);padding-bottom:1rem;margin-bottom:1.5rem;display:flex;justify-content:space-between;align-items:center;">
-                    <span><i class="fas fa-calendar-alt" style="color:#ff9100;margin-right:0.5rem"></i> Day-Wise Itinerary Plan</span>
-                    <span class="tag" style="background:rgba(0,255,102,.1);color:#00ff66;font-size:.72rem;padding:.3rem .8rem;border-radius:50px;border:1px solid rgba(0,255,102,.2)">FREE PREVIEW ACTIVE</span>
+            <div class="glass" style="margin-bottom: 2.5rem;">
+                <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); padding-bottom: 1rem;">
+                    <h3 style="font-size: 1.25rem; font-weight: 700; color: var(--text-main); margin: 0;"><i class="far fa-calendar-alt" style="color: var(--primary);"></i> Day-Wise Itinerary</h3>
+                    <span style="background: #f0fdfa; color: var(--primary); font-size: 0.75rem; padding: 0.3rem 0.8rem; border-radius: 50px; font-weight: 600;">FREE PREVIEW</span>
                 </div>
 
                 <div class="timeline-panel">
                     {{-- Day 1 --}}
                     <div class="timeline-card">
-                        <div style="font-size:.78rem;font-weight:800;color:#ff9100;text-transform:uppercase;">Day 1: Arrival & Coastal check-in</div>
-                        <h4 style="font-size:1.1rem;font-weight:800;color:#fff;margin-top:0.25rem;margin-bottom:0.5rem;" id="it_day1_title">Oceanfront Check-in & Scenic Beach Shacks</h4>
-                        <p style="color:#b0c4de;font-size:.88rem;line-height:1.6;" id="it_day1_desc">Drive from the terminal to your curated beach cottage accommodations. Unpack and take a refreshing beach sunset stroll, ordering fresh local appetizers and refreshing fruit mocktails from highly rated coastal shacks.</p>
+                        <div style="font-size: 0.8rem; font-weight: 700; color: var(--primary); text-transform: uppercase;">Day 1: Arrival & Check-in</div>
+                        <h4 style="font-size: 1.1rem; font-weight: 700; color: var(--text-main); margin-top: 0.25rem; margin-bottom: 0.5rem;" id="it_day1_title">Oceanfront Check-in & Scenic Beach Shacks</h4>
+                        <p style="color: var(--text-muted); font-size: 0.9rem; line-height: 1.6;" id="it_day1_desc">Drive from the terminal to your curated beach cottage accommodations. Unpack and take a refreshing beach sunset stroll, ordering fresh local appetizers and refreshing fruit mocktails from highly rated coastal shacks.</p>
                     </div>
                     {{-- Day 2 --}}
                     <div class="timeline-card">
-                        <div style="font-size:.78rem;font-weight:800;color:#ff9100;text-transform:uppercase;">Day 2: Historical Landmarks</div>
-                        <h4 style="font-size:1.1rem;font-weight:800;color:#fff;margin-top:0.25rem;margin-bottom:0.5rem;" id="it_day2_title">Old Portuguese Fort Walking Tour</h4>
-                        <p style="color:#b0c4de;font-size:.88rem;line-height:1.6;" id="it_day2_desc">Explore ancient architecture in the historical district. Take amazing landscape photos of the deep sea cliffs from the high-walls. Stroll through the local spice gardens and enjoy traditional clay-pot wood-fired buffet lunches.</p>
+                        <div style="font-size: 0.8rem; font-weight: 700; color: var(--primary); text-transform: uppercase;">Day 2: Historical Landmarks</div>
+                        <h4 style="font-size: 1.1rem; font-weight: 700; color: var(--text-main); margin-top: 0.25rem; margin-bottom: 0.5rem;" id="it_day2_title">Old Portuguese Fort Walking Tour</h4>
+                        <p style="color: var(--text-muted); font-size: 0.9rem; line-height: 1.6;" id="it_day2_desc">Explore ancient architecture in the historical district. Take amazing landscape photos of the deep sea cliffs from the high-walls. Stroll through the local spice gardens and enjoy traditional clay-pot wood-fired buffet lunches.</p>
                     </div>
 
-                    {{-- Day 3 (Locked under Premium paywall) --}}
-                    <div class="timeline-card" style="position:relative;">
-                        {{-- Gated Blur --}}
+                    {{-- Day 3 (Locked) --}}
+                    <div class="timeline-card" style="position: relative;">
                         <div class="gated-blur-element">
-                            <div style="font-size:.78rem;font-weight:800;color:#ff9100;text-transform:uppercase;">Day 3: Secret Waterfalls & Hidden Caves</div>
-                            <h4 style="font-size:1.1rem;font-weight:800;color:#fff;margin-top:0.25rem;margin-bottom:0.5rem;">Tropical Jungle Trekking & Scenic High Viewpoints</h4>
-                            <p style="color:#b0c4de;font-size:.88rem;line-height:1.6;">Stroll inside a gorgeous wildlife sanctuary, following hidden routes to deep cascading mountain springs. Swim in standard pool currents under safe lifeguards. Finish with evening shopping at dynamic, illuminated ocean bazaar lanes.</p>
+                            <div style="font-size: 0.8rem; font-weight: 700; color: var(--primary); text-transform: uppercase;">Day 3: Secret Waterfalls & Caves</div>
+                            <h4 style="font-size: 1.1rem; font-weight: 700; color: var(--text-main); margin-top: 0.25rem; margin-bottom: 0.5rem;">Tropical Jungle Trekking</h4>
+                            <p style="color: var(--text-muted); font-size: 0.9rem; line-height: 1.6;">Stroll inside a gorgeous wildlife sanctuary, following hidden routes to deep cascading mountain springs. Swim in standard pool currents under safe lifeguards. Finish with evening shopping at dynamic, illuminated ocean bazaar lanes.</p>
                         </div>
-                        {{-- Lock Badge --}}
                         <div class="lock-overlay-badge">
-                            <div style="font-size:1.5rem;margin-bottom:0.3rem;"><i class="fas fa-lock" style="color:#ffca28"></i></div>
-                            <div style="font-size:.82rem;font-weight:800;color:#ffca28;text-transform:uppercase;">Day 3 Locked</div>
-                            <div style="font-size:.7rem;color:#b0c4de;max-width:300px;">Unlock Premium to access full day-by-day travel timelines.</div>
+                            <div style="font-size: 1.5rem; margin-bottom: 0.5rem; color: var(--text-main);"><i class="fas fa-lock"></i></div>
+                            <div style="font-size: 0.85rem; font-weight: 700; text-transform: uppercase;">Day 3 Locked</div>
+                            <div style="font-size: 0.8rem; color: var(--text-muted); max-width: 300px; margin-top: 0.25rem;">Unlock Premium to access full day-by-day travel timelines.</div>
                         </div>
-                    </div>
-                </div>
-            </div>
-
-            {{-- 5. Exact Hotels & Bookings (Locked under Premium Paywall) --}}
-            <div style="margin-bottom:2rem;text-align:left;">
-                <div style="font-size:1.15rem;font-weight:800;color:#fff;margin-bottom:1.25rem"><i class="fas fa-hotel" style="color:#ff9100;margin-right:0.5rem"></i> Exact Hotel Recommendations</div>
-                <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;position:relative;">
-                    {{-- Hotel Card 1 --}}
-                    <div class="glass gated-blur-element" style="padding:1.5rem;display:flex;gap:1rem;align-items:center;">
-                        <img src="https://images.unsplash.com/photo-1566073771259-6a8506099945?q=80&w=200" style="width:90px;height:90px;border-radius:12px;object-fit:cover;">
-                        <div>
-                            <div style="font-size:.7rem;font-weight:800;color:#ff9100;text-transform:uppercase;">Recommended Luxury</div>
-                            <h4 style="font-size:1rem;font-weight:800;color:#fff;">The Royal Heritage Resort</h4>
-                            <div style="font-size:.82rem;color:#00ff66;">⭐ 4.8 Ratings · Verified Partner</div>
-                        </div>
-                    </div>
-                    {{-- Hotel Card 2 --}}
-                    <div class="glass gated-blur-element" style="padding:1.5rem;display:flex;gap:1rem;align-items:center;">
-                        <img src="https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?q=80&w=200" style="width:90px;height:90px;border-radius:12px;object-fit:cover;">
-                        <div>
-                            <div style="font-size:.7rem;font-weight:800;color:#ff9100;text-transform:uppercase;">Curated Boutique</div>
-                            <h4 style="font-size:1rem;font-weight:800;color:#fff;">Aqua View Oceanside Cottages</h4>
-                            <div style="font-size:.82rem;color:#00ff66;">⭐ 4.6 Ratings · Verified Partner</div>
-                        </div>
-                    </div>
-                    {{-- Lock Badge --}}
-                    <div class="lock-overlay-badge" style="background:rgba(6,7,19,0.75);">
-                        <div style="font-size:2rem;margin-bottom:0.5rem;"><i class="fas fa-hotel" style="color:#ffca28"></i></div>
-                        <h4 style="font-size:1.1rem;font-weight:800;color:#fff;">🏨 Exact Hotel Names Gated</h4>
-                        <p style="font-size:.8rem;color:#b0c4de;max-width:400px;margin-top:0.25rem;">Unlock the complete plan to show precise accommodation recommendations, verified booking prices, and direct partner check-outs!</p>
                     </div>
                 </div>
             </div>
@@ -274,96 +206,31 @@
             {{-- Total Estimate Banner --}}
             <div class="total-banner" id="total-banner"></div>
 
-            {{-- FREE VS PREMIUM COMPARISON TABLE --}}
-            <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-bottom:2.5rem;text-align:left;">
-                <div class="glass" style="border-color:rgba(255,255,255,.08)">
-                    <div style="font-size:1.05rem;font-weight:800;color:#fff;margin-bottom:1rem">🆓 Free Tier Access</div>
-                    <div class="feature-check">✅ Flight vs Train Comparison</div>
-                    <div class="feature-check">✅ Daily Food & Transit Indices</div>
-                    <div class="feature-check">✅ Basic Weather Forecast Tip</div>
-                    <div class="feature-check">✅ Day 1 & Day 2 Basic Plan</div>
-                    <div class="feature-check locked">🔒 Day 3+ Detailed Hourly Map</div>
-                    <div class="feature-check locked">🔒 Exact Hotel Picks & Booking</div>
-                    <div class="feature-check locked">🔒 Telematics Mapping & Radars</div>
-                    <div class="feature-check locked">🔒 Downloadable Travel QR Passes</div>
-                </div>
-                <div class="glass" style="border-color:rgba(255,202,40,.3);background:rgba(255,202,40,.03)">
-                    <div style="font-size:1.05rem;font-weight:800;color:#ffca28;margin-bottom:.25rem">💎 Premium Ecosystem — ₹199</div>
-                    <div style="font-size:.78rem;color:#b0c4de;margin-bottom:1rem">One-time checkout. Lifetime storage in dashboard.</div>
-                    <div class="feature-check" style="color:#fff">✅ Everything in Free Tier</div>
-                    <div class="feature-check" style="color:#00ff66">✨ Complete Day-Wise Timeline</div>
-                    <div class="feature-check" style="color:#00ff66">✨ Exact Hotel Recommendations</div>
-                    <div class="feature-check" style="color:#00ff66">✨ Direct Redirect Booking Portals</div>
-                    <div class="feature-check" style="color:#00ff66">✨ Instant Booking ID Validation</div>
-                    <div class="feature-check" style="color:#00ff66">✨ High-Speed PDF Export Pass</div>
-                    <div class="feature-check" style="color:#00ff66">✨ Telematics Interactive Radar</div>
-                </div>
-            </div>
-
             {{-- 6. PREMIUM RAZORPAY GATE CONTAINER --}}
             <div class="premium-lock-container" id="premium-section">
-                <div style="font-size:2.5rem;margin-bottom:.75rem">🔓</div>
-                <h3 style="font-size:1.5rem;font-weight:900;color:#fff;margin-bottom:.5rem">Unlock Complete Premium AI Itinerary</h3>
-                <p style="color:#b0c4de;margin-bottom:1.5rem;max-width:550px;margin-left:auto;margin-right:auto;font-size:0.9rem;line-height:1.6;">
+                <div style="font-size: 2.5rem; margin-bottom: 1rem;">💎</div>
+                <h3 style="font-size: 1.5rem; font-weight: 800; color: var(--text-main); margin-bottom: 0.5rem;">Unlock Complete Premium AI Itinerary</h3>
+                <p style="color: var(--text-muted); margin-bottom: 1.5rem; max-width: 550px; margin-left: auto; margin-right: auto; font-size: 0.95rem; line-height: 1.6;">
                     Unlock the full day-by-day travel plan, exact hotel locations, global telematics maps, booking redirect APIs, and generate a printable QR Travel Pass!
                 </p>
                 <button class="unlock-btn" onclick="unlockPremium()">
-                    ✨ Unlock Complete Ecosystem for ₹199 — Razorpay Secure
+                    Unlock Complete Ecosystem for ₹199
                 </button>
-                <div style="margin-top:1.2rem;font-size:.75rem;color:#b0c4de">
-                    <i class="fas fa-shield-halved" style="color:#00ff66"></i> Encrypted transactions · Dynamic signature validation · Instant access
+                <div style="margin-top: 1.25rem; font-size: 0.8rem; color: var(--text-muted);">
+                    <i class="fas fa-shield-alt" style="color: var(--primary);"></i> Secure transactions · Instant access
                 </div>
             </div>
-
         </div>
-
-        {{-- Direct Booking Partners Section --}}
-        <div style="margin-top:4.5rem;position:relative;">
-            <div style="text-align:center;margin-bottom:2rem">
-                <div style="font-size:.72rem;font-weight:800;color:#ff9100;text-transform:uppercase;letter-spacing:2px;margin-bottom:.5rem">DIRECT TRAVEL INTEGRATION</div>
-                <h2 style="font-size:1.6rem;font-weight:800;color:#fff">Premium Booking Systems</h2>
-                <p style="color:#b0c4de;font-size:.9rem">Direct partner checkout channels mapped automatically based on trip parameters</p>
-            </div>
-
-            <div class="partner-grid">
-                {{-- Partner Cards --}}
-                @foreach([
-                    ['https://www.makemytrip.com','#E73C7E','fas fa-plane-up','MakeMyTrip','Flights Booking'],
-                    ['https://www.irctc.co.in','#1565C0','fas fa-train-subway','IRCTC','Railway Bookings'],
-                    ['https://www.redbus.in','#D84315','fas fa-bus-simple','RedBus','Bus Booking'],
-                    ['https://www.uber.com','#000000','fab fa-uber','Uber','City Cab hailing'],
-                    ['https://rapido.bike','#FFD600','fas fa-motorcycle','Rapido','Bike taxi pickup'],
-                    ['https://www.booking.com','#003580','fas fa-hotel','Booking.com','Hotel Stays']
-                ] as [$url,$color,$icon,$name,$desc])
-                    <div class="partner-card">
-                        {{-- Blur cover for locked booking --}}
-                        <div class="gated-blur-element">
-                            <div style="width:48px;height:48px;border-radius:12px;background:{{ $color }}22;border:1px solid {{ $color }}44;display:flex;align-items:center;justify-content:center;margin:0 auto .75rem">
-                                <i class="{{ $icon }}" style="color:{{ $color }};font-size:1.25rem"></i>
-                            </div>
-                            <div style="color:#fff;font-weight:700;font-size:.85rem">{{ $name }}</div>
-                            <div style="color:#b0c4de;font-size:.72rem;margin-top:.2rem">{{ $desc }}</div>
-                        </div>
-                        {{-- Gated lock click prevention --}}
-                        <div class="lock-overlay-badge" style="background:rgba(6,7,19,0.85);cursor:pointer;" onclick="alert('Please upgrade to Premium to unlock direct booking redirects!')">
-                            <div style="font-size:1.15rem;color:#ffca28;"><i class="fas fa-lock"></i></div>
-                            <div style="font-size:0.62rem;color:#b0c4de;font-weight:700;margin-top:0.25rem;text-transform:uppercase;">Premium Only</div>
-                        </div>
-                    </div>
-                @endforeach
-            </div>
-        </div>
-
     </div>
 </div>
 
 {{-- Success Overlay --}}
 <div class="success-overlay" id="success-overlay">
     <div class="success-box">
-        <div style="font-size:3rem;margin-bottom:1rem">✨</div>
-        <h2 style="color:#fff;font-weight:900;margin-bottom:.5rem">Premium Unlocked!</h2>
-        <p style="color:#b0c4de;margin-bottom:1.5rem">Activating premium parameters and geocoding detailed itineraries...</p>
-        <div class="spinner" style="display:block;margin:0 auto"></div>
+        <div style="font-size: 3rem; margin-bottom: 1rem;">✨</div>
+        <h2 style="color: var(--text-main); font-weight: 800; margin-bottom: 0.5rem;">Premium Unlocked!</h2>
+        <p style="color: var(--text-muted); margin-bottom: 1.5rem;">Activating premium parameters and geocoding detailed itineraries...</p>
+        <div class="spinner" style="display: block; margin: 0 auto; border-top-color: var(--primary);"></div>
     </div>
 </div>
 
@@ -411,44 +278,39 @@ function renderResults(d) {
     const f = n => ('₹' + Math.round(n).toLocaleString('en-IN'));
     const cheapest = Math.min(d.totals.with_flight, d.totals.with_train, d.totals.with_bus);
 
-    // Populate Transport Cards
     let tc = '';
     [['flight','✈️','fa-plane-up'], ['train','🚆','fa-train-subway'], ['bus','🚌','fa-bus-simple']].forEach(([k, em, icon]) => {
         const t = d.transport[k];
         const isBest = d.totals['with_' + k] === cheapest;
         tc += `<div class="transport-card ${isBest ? 'best' : ''}">
             <div style="font-size:1.8rem;margin-bottom:.5rem">${em}</div>
-            <div style="color:#fff;font-weight:800;font-size:.95rem;margin-bottom:.2rem">${t.label}</div>
-            <div style="color:#b0c4de;font-size:.78rem;margin-bottom:.5rem"><i class="fas fa-clock"></i> ${t.duration}</div>
-            <div style="font-size:1.35rem;font-weight:900;color:#00ff66">${f(t.cost)}</div>
-            <div style="font-size:.7rem;color:#b0c4de">for ${d.travelers} traveler(s)</div>
-            <div style="margin-top:.75rem;font-size:.82rem;font-weight:700;color:#fff">Total Trip: <span style="color:#ffca28">${f(d.totals['with_'+k])}</span></div>
+            <div style="color:var(--text-main);font-weight:700;font-size:.95rem;margin-bottom:.2rem">${t.label}</div>
+            <div style="color:var(--text-muted);font-size:.8rem;margin-bottom:.5rem"><i class="far fa-clock"></i> ${t.duration}</div>
+            <div style="font-size:1.35rem;font-weight:800;color:var(--text-main);">${f(t.cost)}</div>
+            <div style="font-size:.75rem;color:var(--text-muted)">for ${d.travelers} traveler(s)</div>
+            <div style="margin-top:1rem;font-size:.85rem;font-weight:600;color:var(--text-muted)">Total Trip: <span style="color:var(--primary)">${f(d.totals['with_'+k])}</span></div>
         </div>`;
     });
     document.getElementById('transport-cards').innerHTML = tc;
 
-    // Populate Total Banner
     document.getElementById('total-banner').innerHTML = `
         <div>
-            <div style="font-size:.82rem;color:#b0c4de;margin-bottom:.2rem">${d.from} → ${d.to} · ${d.days} Days · ${d.travelers} Traveler(s)</div>
-            <div style="font-size:.88rem;color:#b0c4de">Suggested Transit: <strong style="color:#fff">with ${d.totals.with_bus <= d.totals.with_train ? 'Bus' : 'Train'}</strong></div>
+            <div style="font-size:.85rem;color:var(--text-muted);margin-bottom:.2rem">${d.from} &rarr; ${d.to} · ${d.days} Days · ${d.travelers} Traveler(s)</div>
+            <div style="font-size:.9rem;color:var(--text-main);font-weight:600;">Suggested Transit: <strong>with ${d.totals.with_bus <= d.totals.with_train ? 'Bus' : 'Train'}</strong></div>
         </div>
         <div style="text-align:right">
-            <div style="font-size:.82rem;color:#b0c4de">Calculated Basic Budget</div>
-            <div style="font-size:2rem;font-weight:900;color:#ff9100">${f(cheapest)}</div>
-            <div style="font-size:.75rem;color:#b0c4de">${f(Math.round(cheapest/d.travelers))} /person</div>
+            <div style="font-size:.85rem;color:var(--text-muted)">Calculated Basic Budget</div>
+            <div style="font-size:2rem;font-weight:800;color:var(--primary);line-height:1">${f(cheapest)}</div>
+            <div style="font-size:.8rem;color:var(--text-muted)">${f(Math.round(cheapest/d.travelers))} /person</div>
         </div>`;
 
-    // Dynamic Text Updates for Free Day Preview
     document.getElementById('it_day1_title').textContent = `Check-in in ${d.to} & Local Shacks`;
     document.getElementById('it_day1_desc').textContent = `Arrive dynamically from ${d.from}. Complete validation and enjoy high-speed check-in at a beautiful local hotel collection. Walk around coastal viewpoints and enjoy fresh dining packages.`;
     document.getElementById('it_day2_title').textContent = `${d.to} Historic Architectural Walk`;
     document.getElementById('it_day2_desc').textContent = `Explore scenic landmarks and markets. Treat yourself to highly rated dynamic local specialties. Experience a completely customized travel route optimized for registered users.`;
 
-    // Initialize ChartJS Graphics
     initializeCharts(d);
 
-    // Make results block visible & scroll to it
     document.getElementById('results').style.display = 'block';
     document.getElementById('results').scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
@@ -457,58 +319,55 @@ function initializeCharts(d) {
     const trendCtx = document.getElementById('plannerLineChart').getContext('2d');
     const doughnutCtx = document.getElementById('plannerDoughnutChart').getContext('2d');
 
-    // Destroy existing instances if they exist (standard ChartJS recreation rule)
     if (trendChartInstance) trendChartInstance.destroy();
     if (doughnutChartInstance) doughnutChartInstance.destroy();
 
-    // Line Chart: Projection curves
     trendChartInstance = new Chart(trendCtx, {
         type: 'line',
         data: {
             labels: ['Day 1', 'Day 2', 'Day 3'],
             datasets: [{
-                label: 'Projected Spend Limit (₹)',
+                label: 'Projected Spend Limit',
                 data: [d.totals.cheapest * 0.3, d.totals.cheapest * 0.6, d.totals.cheapest],
-                borderColor: '#ff9100',
-                backgroundColor: 'rgba(255,145,0,0.1)',
+                borderColor: '#0d9488',
+                backgroundColor: 'rgba(13, 148, 136, 0.1)',
                 fill: true,
                 borderWidth: 2,
                 tension: 0.4
             }, {
-                label: 'Simulated Budget Burn (₹)',
+                label: 'Simulated Budget Burn',
                 data: [d.totals.cheapest * 0.25, d.totals.cheapest * 0.52, d.totals.cheapest * 0.95],
-                borderColor: '#00ff66',
-                borderWidth: 3,
+                borderColor: '#f59e0b',
+                borderWidth: 2,
                 tension: 0.4,
-                pointBackgroundColor: '#00ff66'
+                pointBackgroundColor: '#f59e0b'
             }]
         },
         options: {
             responsive: true,
             maintainAspectRatio: false,
-            plugins: { legend: { labels: { color: '#b0c4de' } } },
+            plugins: { legend: { labels: { color: '#64748b' } } },
             scales: {
-                x: { ticks: { color: '#b0c4de' }, grid: { color: 'rgba(255,255,255,0.03)' } },
-                y: { ticks: { color: '#b0c4de' }, grid: { color: 'rgba(255,255,255,0.03)' } }
+                x: { ticks: { color: '#64748b' }, grid: { color: '#f1f5f9' } },
+                y: { ticks: { color: '#64748b' }, grid: { color: '#f1f5f9' } }
             }
         }
     });
 
-    // Doughnut Chart: Categories
     doughnutChartInstance = new Chart(doughnutCtx, {
         type: 'doughnut',
         data: {
             labels: ['Transit', 'Hotels', 'Food & Local'],
             datasets: [{
                 data: [d.transport.flight.cost, d.daily.hotel.total, d.daily.food.total + d.daily.local.total],
-                backgroundColor: ['#ff6f00', '#ffca28', '#00ff66'],
+                backgroundColor: ['#0d9488', '#f59e0b', '#3b82f6'],
                 borderWidth: 0
             }]
         },
         options: {
             responsive: true,
             maintainAspectRatio: false,
-            plugins: { legend: { position: 'right', labels: { color: '#b0c4de' } } }
+            plugins: { legend: { position: 'right', labels: { color: '#64748b' } } }
         }
     });
 }
@@ -531,15 +390,7 @@ async function unlockPremium() {
         
         if (!r.ok) {
             const errText = await r.text();
-            let msg = 'Failed to create order.';
-            try {
-                const errJson = JSON.parse(errText);
-                msg = errJson.error || errJson.message || msg;
-            } catch(e) {
-                if (errText.includes('Page Expired')) msg = 'Session expired. Please refresh the page.';
-                else msg = errText.substring(0, 100) || msg;
-            }
-            throw new Error(msg);
+            throw new Error(errText);
         }
         
         const data = await r.json();
@@ -552,15 +403,10 @@ async function unlockPremium() {
             name: 'TravelMate Premium',
             description: data.description,
             order_id: data.order_id,
-            prefill: { 
-                name: data.name, 
-                email: data.email,
-                contact: '9999999999' // Prefill mock contact to bypass saved-card verification
-            },
-            theme: { color: '#ff6f00' },
+            prefill: { name: data.name, email: data.email, contact: '9999999999' },
+            theme: { color: '#0d9488' },
             handler: async function(response) {
                 document.getElementById('success-overlay').style.display = 'flex';
-                
                 try {
                     const verify = await fetch('{{ route("planner.premium.verify") }}', {
                         method: 'POST',
@@ -568,19 +414,9 @@ async function unlockPremium() {
                         body: JSON.stringify(response)
                     });
                     
-                    if (!verify.ok) {
-                        const verifyErr = await verify.text();
-                        let verifyMsg = 'Payment verification failed.';
-                        try {
-                            const errJson = JSON.parse(verifyErr);
-                            verifyMsg = errJson.message || errJson.error || verifyMsg;
-                        } catch(e) {
-                            verifyMsg = verifyErr.substring(0, 100) || verifyMsg;
-                        }
-                        throw new Error(verifyMsg);
-                    }
-                    
+                    if (!verify.ok) throw new Error('Verification failed.');
                     const res = await verify.json();
+                    
                     if(res.success) {
                         window.location.href = res.redirect_url;
                     } else {
@@ -589,39 +425,31 @@ async function unlockPremium() {
                     }
                 } catch(errVal) {
                     document.getElementById('success-overlay').style.display = 'none';
-                    alert('❌ Verification Error: ' + errVal.message);
+                    alert('❌ Verification Error');
                 }
             }
         });
         rzp.open();
     } catch(e) {
-        alert('❌ Payment Order Error: ' + e.message);
+        alert('❌ Payment Order Error: Please make sure you are logged in.');
     }
 }
 
-// --- Autocomplete Logic for Free Trip Planner ---
+// Autocomplete Logic
 function bindAutocomplete(inputId, boxId) {
     const input = document.getElementById(inputId);
     const box = document.getElementById(boxId);
     let timeout = null;
 
-    input.addEventListener('focus', function() {
-        this.parentElement.style.zIndex = '9999';
-    });
-    input.addEventListener('blur', function() {
-        setTimeout(() => { this.parentElement.style.zIndex = ''; }, 200);
-    });
+    input.addEventListener('focus', function() { this.parentElement.style.zIndex = '9999'; });
+    input.addEventListener('blur', function() { setTimeout(() => { this.parentElement.style.zIndex = ''; }, 200); });
 
     input.addEventListener('input', function() {
         clearTimeout(timeout);
         const query = this.value.trim();
-        
-        if (query.length < 2) {
-            box.style.display = 'none';
-            return;
-        }
+        if (query.length < 2) { box.style.display = 'none'; return; }
 
-        box.innerHTML = '<div style="padding:.75rem 1rem;color:rgba(255,255,255,0.5);font-size:.85rem"><i class="fas fa-spinner fa-spin"></i> Searching...</div>';
+        box.innerHTML = '<div style="padding:0.75rem 1rem;color:var(--text-muted);font-size:0.85rem">Searching...</div>';
         box.style.display = 'block';
 
         timeout = setTimeout(async () => {
@@ -635,11 +463,8 @@ function bindAutocomplete(inputId, boxId) {
                         const state = place.address.state || place.address.country || 'India';
                         return { city, state };
                     });
-                } catch (apiErr) {
-                    console.error("Nominatim API failed", apiErr);
-                }
+                } catch (apiErr) { console.error(apiErr); }
 
-                // Remove exact duplicates
                 const unique = [];
                 apiMatches.forEach(item => {
                     if (!unique.some(u => u.city.toLowerCase() === item.city.toLowerCase())) {
@@ -648,22 +473,16 @@ function bindAutocomplete(inputId, boxId) {
                 });
 
                 if (unique.length === 0) {
-                    box.innerHTML = '<div style="padding:.75rem 1rem;color:rgba(255,255,255,0.5);font-size:.85rem">No cities found.</div>';
+                    box.innerHTML = '<div style="padding:0.75rem 1rem;color:var(--text-muted);font-size:0.85rem">No cities found.</div>';
                     return;
                 }
 
                 box.innerHTML = '';
                 unique.forEach(place => {
                     const item = document.createElement('div');
-                    item.style.cssText = 'padding:.75rem 1rem;cursor:pointer;border-bottom:1px solid rgba(255,255,255,0.08);transition:background .2s;display:flex;align-items:center;gap:.5rem';
-                    item.innerHTML = `
-                        <i class="fas fa-location-dot" style="color:rgba(255,255,255,0.4);font-size:.8rem"></i> 
-                        <div>
-                            <div style="font-weight:700;font-size:.9rem;color:#ffffff">${place.city}</div>
-                            <div style="font-size:.75rem;color:rgba(255,255,255,0.5)">${place.state}</div>
-                        </div>
-                    `;
-                    item.onmouseenter = () => item.style.background = 'rgba(255, 255, 255, 0.08)';
+                    item.style.cssText = 'padding:0.75rem 1rem;cursor:pointer;border-bottom:1px solid var(--border);font-size:0.9rem;display:flex;align-items:center;gap:0.5rem;';
+                    item.innerHTML = `<i class="fas fa-location-dot" style="color:var(--text-muted)"></i> <div><div style="font-weight:600;color:var(--text-main)">${place.city}</div><div style="font-size:0.75rem;color:var(--text-muted)">${place.state}</div></div>`;
+                    item.onmouseenter = () => item.style.background = '#f8fafc';
                     item.onmouseleave = () => item.style.background = 'transparent';
                     item.onclick = () => {
                         input.value = `${place.city}, ${place.state}`;
@@ -672,7 +491,7 @@ function bindAutocomplete(inputId, boxId) {
                     box.appendChild(item);
                 });
             } catch (error) {
-                box.innerHTML = '<div style="padding:.75rem 1rem;color:#e74c3c;font-size:.85rem">Error loading cities.</div>';
+                box.innerHTML = '<div style="padding:0.75rem 1rem;color:#ef4444;font-size:0.85rem">Error loading cities.</div>';
             }
         }, 500);
     });

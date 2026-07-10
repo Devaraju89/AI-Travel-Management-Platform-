@@ -134,7 +134,7 @@
             </div>
             <div class="info-item">
                 <div class="label">Total Paid</div>
-                <div class="value" style="font-size:1.2rem;color:#ffca28">₹{{ number_format($booking->total_amount) }}</div>
+                <div class="value" style="font-size:1.2rem;color:#fed7aa">₹{{ number_format($booking->total_amount) }}</div>
             </div>
         </div>
 

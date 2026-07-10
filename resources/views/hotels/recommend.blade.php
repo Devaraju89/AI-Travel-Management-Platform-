@@ -14,13 +14,13 @@
 .hotel-img{position:relative;height:220px;overflow:hidden}
 .hotel-img img{width:100%;height:100%;object-fit:cover;transition:transform .6s ease}
 .hotel-card:hover .hotel-img img{transform:scale(1.08)}
-.stars{color:#ffca28;font-size:.9rem}
+.stars{color:#fed7aa;font-size:.9rem}
 .amenity-tag{background:rgba(108,99,255,.15);border:1px solid rgba(108,99,255,.2);color:#a29cf4;padding:.25rem .65rem;border-radius:6px;font-size:.72rem;font-weight:600}
 .rec-badge{position:absolute;top:1rem;left:1rem;background:linear-gradient(135deg,#6c63ff,#00d4aa);color:#fff;font-size:.72rem;font-weight:700;padding:.3rem .8rem;border-radius:50px}
 .price-tag{position:absolute;top:1rem;right:1rem;background:rgba(0,0,0,.7);backdrop-filter:blur(6px);color:#fff;padding:.4rem .8rem;border-radius:10px;font-weight:800;font-size:.9rem;border:1px solid rgba(255,255,255,.1)}
 .book-btn{display:block;width:100%;padding:.85rem;border:none;border-radius:12px;font-family:'Poppins',sans-serif;font-weight:700;font-size:.95rem;cursor:pointer;background:linear-gradient(135deg,#6c63ff,#00d4aa);color:#fff;transition:all .3s;text-align:center;text-decoration:none}
 .book-btn:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(108,99,255,.4);color:#fff}
-.highlight-chip{display:inline-flex;align-items:center;gap:.3rem;background:rgba(255,202,40,.1);border:1px solid rgba(255,202,40,.2);color:#ffca28;padding:.2rem .6rem;border-radius:6px;font-size:.72rem;margin:.15rem}
+.highlight-chip{display:inline-flex;align-items:center;gap:.3rem;background:rgba(255,202,40,.1);border:1px solid rgba(255,202,40,.2);color:#fed7aa;padding:.2rem .6rem;border-radius:6px;font-size:.72rem;margin:.15rem}
 .section-title{font-size:2rem;font-weight:900;color:#fff;margin-bottom:.5rem}
 .ai-banner{background:linear-gradient(135deg,rgba(108,99,255,.2),rgba(0,212,170,.1));border:1px solid rgba(108,99,255,.3);border-radius:16px;padding:1.25rem 1.5rem;margin-bottom:2.5rem;display:flex;align-items:center;gap:1rem}
 </style>
@@ -34,7 +34,7 @@
             <div style="font-size:.8rem;color:#b0c4de;margin-bottom:.25rem">Post-Booking Hotel Discovery</div>
             <div style="font-size:1.5rem;font-weight:900;color:#fff">🏨 Hotels Near {{ $destination?->name ?? 'Your Destination' }}</div>
             <div style="color:#b0c4de;font-size:.88rem;margin-top:.3rem">
-                {{ $checkIn->format('d M') }} – {{ $checkOut->format('d M Y') }} · {{ $nights }} Night{{ $nights > 1 ? 's':'' }} · Booking <span style="color:#ffca28">{{ $booking->booking_reference }}</span>
+                {{ $checkIn->format('d M') }} – {{ $checkOut->format('d M Y') }} · {{ $nights }} Night{{ $nights > 1 ? 's':'' }} · Booking <span style="color:#fed7aa">{{ $booking->booking_reference }}</span>
             </div>
         </div>
         <div style="display:flex;gap:.75rem;flex-wrap:wrap">
@@ -81,7 +81,7 @@
                     <div class="stars">
                         @for($i=0;$i<($hotel->star_rating??4);$i++)★@endfor
                     </div>
-                    <div style="display:flex;align-items:center;gap:.4rem;font-size:.85rem;color:#ffca28;font-weight:700">
+                    <div style="display:flex;align-items:center;gap:.4rem;font-size:.85rem;color:#fed7aa;font-weight:700">
                         <i class="fas fa-star"></i> {{ $hotel->avg_rating ?? '4.5' }}
                         <span style="color:#b0c4de;font-weight:400">({{ number_format($hotel->review_count ?? 200) }})</span>
                     </div>

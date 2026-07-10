@@ -19,14 +19,14 @@
             --sidebar-bg: #0d1b2a;
             --sidebar-border: rgba(255,255,255,0.06);
             --sidebar-text: #8da0b5;
-            --sidebar-active: #ff6f00;
+            --sidebar-active: var(--secondary);
             --topbar-bg: rgba(5, 5, 8, 0.75);
             --bg: #050508;
             --card-bg: rgba(255, 255, 255, 0.025);
             --text: #f8fafc;
             --muted: #94a3b8;
             --border: rgba(255, 255, 255, 0.08);
-            --primary: #ff6f00;
+            --primary: var(--secondary);
             --blue: #0d2b6b;
             --cyan: #0288d1;
             --green: #2e7d32;
@@ -79,7 +79,7 @@
         }
         .sidebar-logo-icon {
             width: 40px; height: 40px;
-            background: linear-gradient(135deg, #ff6f00, #ffca28);
+            background: linear-gradient(135deg, var(--secondary), #fed7aa);
             border-radius: 10px;
             display: flex; align-items: center; justify-content: center;
             font-size: 1.2rem; flex-shrink: 0;
@@ -90,10 +90,10 @@
             color: #fff;
             line-height: 1;
         }
-        .sidebar-logo-text span { color: #ff6f00; }
+        .sidebar-logo-text span { color: var(--secondary); }
         .sidebar-badge {
             font-size: .6rem; font-weight: 700; letter-spacing: .08em;
-            background: rgba(255,111,0,.2); color: #ff6f00;
+            background: rgba(255,111,0,.2); color: var(--secondary);
             border: 1px solid rgba(255,111,0,.3);
             border-radius: 4px; padding: 1px 6px;
             margin-top: 2px; display: block;
@@ -124,14 +124,14 @@
         }
         .nav-item.active {
             background: rgba(255,111,0,.12);
-            color: #ff6f00;
+            color: var(--secondary);
             font-weight: 600;
         }
         .nav-item.active::before {
             content: '';
             position: absolute; left: 0; top: 0; bottom: 0;
             width: 3px;
-            background: #ff6f00;
+            background: var(--secondary);
             border-radius: 0 2px 2px 0;
         }
         .nav-item .nav-icon {
@@ -147,7 +147,7 @@
         .nav-item:hover .nav-icon { background: rgba(255,255,255,.1); }
         .nav-badge {
             margin-left: auto;
-            background: #ff6f00; color: #fff;
+            background: var(--secondary); color: #fff;
             font-size: .65rem; font-weight: 700;
             border-radius: 50px; padding: 1px 7px;
         }
@@ -225,11 +225,11 @@
             color: var(--muted); cursor: pointer;
             transition: .2s; text-decoration: none;
         }
-        .topbar-notif:hover { background: #fff; border-color: #ff6f00; color: #ff6f00; }
+        .topbar-notif:hover { background: #fff; border-color: var(--secondary); color: var(--secondary); }
         .topbar-notif .dot {
             position: absolute; top: 6px; right: 6px;
             width: 8px; height: 8px;
-            background: #ff6f00; border-radius: 50%;
+            background: var(--secondary); border-radius: 50%;
             border: 2px solid var(--topbar-bg);
         }
         .topbar-avatar {
@@ -240,12 +240,12 @@
         }
         .view-site-btn {
             font-size: .78rem; font-weight: 600;
-            background: rgba(255,111,0,.1); color: #ff6f00;
+            background: rgba(255,111,0,.1); color: var(--secondary);
             border: 1px solid rgba(255,111,0,.3);
             border-radius: 8px; padding: .35rem .85rem;
             text-decoration: none; transition: .2s;
         }
-        .view-site-btn:hover { background: #ff6f00; color: #fff; }
+        .view-site-btn:hover { background: var(--secondary); color: #fff; }
 
         /* ─────── PAGE CONTENT ─────── */
         .page-content { padding: 1.75rem 2rem; flex: 1; }
@@ -313,7 +313,7 @@
             opacity: .08;
             transform: translate(20px, -20px);
         }
-        .kpi-card.orange::after { background: #ff6f00; }
+        .kpi-card.orange::after { background: var(--secondary); }
         .kpi-card.blue::after   { background: #0d2b6b; }
         .kpi-card.green::after  { background: #2e7d32; }
         .kpi-card.cyan::after   { background: #0288d1; }
@@ -325,7 +325,7 @@
             display: flex; align-items: center; justify-content: center;
             font-size: 1rem;
         }
-        .kpi-icon.orange { background: rgba(255,111,0,.12); color: #ff6f00; }
+        .kpi-icon.orange { background: rgba(255,111,0,.12); color: var(--secondary); }
         .kpi-icon.blue   { background: rgba(13,43,107,.12); color: #0d2b6b; }
         .kpi-icon.green  { background: rgba(46,125,50,.12); color: #2e7d32; }
         .kpi-icon.cyan   { background: rgba(2,136,209,.12); color: #0288d1; }
@@ -369,7 +369,7 @@
         .badge.warning { background: rgba(249,168,37,.15); color: #e65100; }
         .badge.danger  { background: rgba(198,40,40,.12);  color: #c62828; }
         .badge.info    { background: rgba(2,136,209,.12);   color: #0288d1; }
-        .badge.primary { background: rgba(255,111,0,.12);   color: #ff6f00; }
+        .badge.primary { background: rgba(255,111,0,.12);   color: var(--secondary); }
 
         /* ─────── BUTTONS ─────── */
         .btn {
@@ -379,10 +379,10 @@
             cursor: pointer; border: none; transition: all .2s;
             text-decoration: none;
         }
-        .btn-orange { background: #ff6f00; color: #fff; box-shadow: 0 4px 14px rgba(255,111,0,.3); }
+        .btn-orange { background: var(--secondary); color: #fff; box-shadow: 0 4px 14px rgba(255,111,0,.3); }
         .btn-orange:hover { background: #e65c00; transform: translateY(-1px); }
         .btn-ghost { background: var(--bg); color: var(--muted); border: 1px solid var(--border); }
-        .btn-ghost:hover { border-color: #ff6f00; color: #ff6f00; background: rgba(255,111,0,.05); }
+        .btn-ghost:hover { border-color: var(--secondary); color: var(--secondary); background: rgba(255,111,0,.05); }
         .btn-sm { padding: .35rem .85rem; font-size: .75rem; }
         .btn-icon { width: 32px; height: 32px; border-radius: 8px; padding: 0; justify-content: center; }
 
@@ -483,7 +483,7 @@
         }
         input[type="file"].form-control::file-selector-button {
             background: rgba(255,111,0,.15);
-            color: #ff6f00;
+            color: var(--secondary);
             border: 1px solid rgba(255,111,0,.3);
             border-radius: 6px;
             padding: .3rem .85rem;
@@ -494,7 +494,7 @@
             transition: all .2s;
         }
         input[type="file"].form-control::file-selector-button:hover {
-            background: #ff6f00;
+            background: var(--secondary);
             color: #fff;
         }
 
@@ -552,7 +552,7 @@
         }
         .form-section-title .icon-orange {
             background: rgba(255,111,0,.15);
-            color: #ff6f00;
+            color: var(--secondary);
         }
         .form-section-title .icon-blue {
             background: rgba(2,136,209,.15);
@@ -578,7 +578,7 @@
             font-weight: 700;
             letter-spacing: .02em;
         }
-        .badge-primary { background: rgba(255,111,0,.12); color: #ff6f00; }
+        .badge-primary { background: rgba(255,111,0,.12); color: var(--secondary); }
         .badge-success { background: rgba(46,125,50,.12); color: #43a047; }
         .badge-danger  { background: rgba(198,40,40,.12); color: #ef5350; }
         .badge-info    { background: rgba(2,136,209,.12); color: #0288d1; }
@@ -593,7 +593,7 @@
             letter-spacing: .08em;
             text-transform: uppercase;
             background: rgba(255,111,0,.1);
-            color: #ff6f00;
+            color: var(--secondary);
             border: 1px solid rgba(255,111,0,.2);
             border-radius: 6px;
             padding: .2rem .65rem;
@@ -602,12 +602,12 @@
 
         /* ─────── BTN PRIMARY & OUTLINE (Page-level) ─────── */
         .btn-primary {
-            background: linear-gradient(135deg, #ff6f00, #ff8f00);
+            background: linear-gradient(135deg, var(--secondary), #ff8f00);
             color: #fff;
             box-shadow: 0 4px 14px rgba(255,111,0,.3);
         }
         .btn-primary:hover {
-            background: linear-gradient(135deg, #e65c00, #ff6f00);
+            background: linear-gradient(135deg, #e65c00, var(--secondary));
             transform: translateY(-1px);
             box-shadow: 0 6px 20px rgba(255,111,0,.4);
         }
@@ -618,7 +618,7 @@
         }
         .btn-outline:hover {
             border-color: rgba(255,111,0,.4);
-            color: #ff6f00;
+            color: var(--secondary);
             background: rgba(255,111,0,.05);
         }
 
@@ -726,7 +726,7 @@
         </div>
         <div class="topbar-spacer"></div>
         <div class="topbar-time" id="admin-live-clock">
-            <i class="fas fa-clock" style="color:#ff6f00;margin-right:.3rem"></i>
+            <i class="fas fa-clock" style="color:var(--secondary);margin-right:.3rem"></i>
             {{ now()->format('D, M d · H:i') }}
         </div>
         @if(session('success'))
@@ -808,8 +808,8 @@
 }
 .neural-close:hover {
     background: rgba(255,111,0,0.2);
-    border-color: #ff6f00;
-    color: #ff6f00;
+    border-color: var(--secondary);
+    color: var(--secondary);
 }
 .neural-body {
     padding: 1.5rem;
@@ -962,7 +962,7 @@
         <div class="neural-card">
             <div class="neural-card-top">
                 <div class="neural-card-icon-title">
-                    <i class="fas {{ $notif->type === 'new_contact_message' ? 'fa-envelope-open-text' : 'fa-bell' }}" style="color: #ffca28;"></i> {{ $notif->title }}
+                    <i class="fas {{ $notif->type === 'new_contact_message' ? 'fa-envelope-open-text' : 'fa-bell' }}" style="color: #fed7aa;"></i> {{ $notif->title }}
                 </div>
                 <div class="neural-card-time">{{ $notif->created_at->format('H:i') }}</div>
             </div>
@@ -979,7 +979,7 @@
         <div class="neural-card">
             <div class="neural-card-top">
                 <div class="neural-card-icon-title">
-                    <i class="fas fa-clock" style="color: #ffca28;"></i> New Acquisition Staged
+                    <i class="fas fa-clock" style="color: #fed7aa;"></i> New Acquisition Staged
                 </div>
                 <div class="neural-card-time">19:10</div>
             </div>
@@ -1031,7 +1031,7 @@ document.addEventListener('DOMContentLoaded', function() {
             hours = hours % 12;
             hours = hours ? hours : 12; // high-noon or midnight
             
-            el.innerHTML = `<i class="fas fa-clock" style="color:#ff6f00;margin-right:.3rem"></i> ${dayName}, ${monthName} ${dayNum} · ${hours}:${minutes} ${ampm}`;
+            el.innerHTML = `<i class="fas fa-clock" style="color:var(--secondary);margin-right:.3rem"></i> ${dayName}, ${monthName} ${dayNum} · ${hours}:${minutes} ${ampm}`;
         }
     }
     updateAdminClock();

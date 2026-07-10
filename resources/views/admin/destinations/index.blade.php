@@ -14,9 +14,9 @@
     @foreach(['All','North','South','East','West','Central','Northeast','Islands'] as $region)
     <a href="{{ request()->fullUrlWithQuery(['region' => $region == 'All' ? '' : $region]) }}"
        style="padding:.45rem 1.1rem;border-radius:50px;font-size:.78rem;font-weight:700;text-decoration:none;transition:all .2s;
-              background:{{ (request('region', '') == ($region == 'All' ? '' : $region)) ? '#ff6f00' : 'var(--card-bg)' }};
+              background:{{ (request('region', '') == ($region == 'All' ? '' : $region)) ? 'var(--secondary)' : 'var(--card-bg)' }};
               color:{{ (request('region', '') == ($region == 'All' ? '' : $region)) ? '#fff' : 'var(--muted)' }};
-              border:1px solid {{ (request('region', '') == ($region == 'All' ? '' : $region)) ? '#ff6f00' : 'var(--border)' }}">
+              border:1px solid {{ (request('region', '') == ($region == 'All' ? '' : $region)) ? 'var(--secondary)' : 'var(--border)' }}">
         {{ $region }}
     </a>
     @endforeach
@@ -27,7 +27,7 @@
     @foreach([
         ['37', 'Total States/UTs', 'fa-map', '#0d2b6b'],
         [$destinations->where('base_price_economy', '>', 0)->count(), 'Prices Set', 'fa-indian-rupee-sign', '#2e7d32'],
-        ['₹'.number_format($destinations->avg('base_price_standard')), 'Avg Standard Price', 'fa-chart-bar', '#ff6f00'],
+        ['₹'.number_format($destinations->avg('base_price_standard')), 'Avg Standard Price', 'fa-chart-bar', 'var(--secondary)'],
         [$destinations->where('is_featured', true)->count(), 'Featured States', 'fa-star', '#f9a825'],
     ] as [$val, $label, $icon, $color])
     <div class="kpi-card" style="padding:1.25rem">
@@ -46,7 +46,7 @@
 <div class="card" style="overflow:hidden">
     <div class="card-header">
         <div class="card-title">
-            <i class="fas fa-map-marked-alt" style="color:#ff6f00"></i>
+            <i class="fas fa-map-marked-alt" style="color:var(--secondary)"></i>
             State & Capital Destination Pricing
         </div>
         <div style="display:flex;gap:.5rem">
@@ -164,7 +164,7 @@
     <div style="background:#fff;border-radius:20px;padding:2rem;width:560px;max-width:95vw;box-shadow:0 24px 60px rgba(0,0,0,0.2);animation:slideUp .3s ease">
         <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem">
             <h3 style="font-size:1.1rem;font-weight:800;color:var(--text)">
-                <i class="fas fa-map-marker-alt" style="color:#ff6f00"></i>
+                <i class="fas fa-map-marker-alt" style="color:var(--secondary)"></i>
                 Edit Pricing — <span id="modal-state-name"></span>
             </h3>
             <button onclick="closeModal()" style="background:none;border:none;cursor:pointer;font-size:1.2rem;color:var(--muted)">

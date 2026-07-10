@@ -1,44 +1,101 @@
+@if(!request()->has('widget'))
 @extends('layouts.app')
+@endif
 @section('title','AI Travel Assistant')
+
+@if(request()->has('widget'))
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TravelMate AI</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root { --primary: #0d9488; --primary-hover: #0f766e; --bg-body: #f8fafc; --surface: #ffffff; --text-main: #0f172a; --text-muted: #64748b; --border: #e2e8f0; --shadow-sm: 0 1px 2px 0 rgba(0,0,0,0.05); }
+        * { box-sizing: border-box; font-family: 'Inter', sans-serif; }
+        body { margin: 0; padding: 0; background: #fff; overflow: hidden; }
+        .chat-container { height: 100vh; }
+    </style>
+</head>
+<body>
+@endif
+
 @section('content')
-<div style="height:calc(100vh - 70px);display:flex;flex-direction:column">
-    <div style="background:linear-gradient(135deg,#0f0f2e,#0a1628);padding:1.5rem 2rem;border-bottom:1px solid var(--border)">
-        <div style="max-width:900px;margin:0 auto;display:flex;align-items:center;gap:1rem">
-            <div style="width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,var(--primary),var(--secondary));display:flex;align-items:center;justify-content:center;font-size:1.3rem">🤖</div>
+<style>
+@if(!request()->has('widget'))
+.chat-container { height: calc(100vh - 70px); }
+@endif
+.chat-container { display: flex; flex-direction: column; background: var(--bg-body); width: 100%; }
+.chat-header { background: #fff; padding: 1rem 1.5rem; border-bottom: 1px solid var(--border); box-shadow: var(--shadow-sm); z-index: 10; flex-shrink: 0;}
+.chat-header-inner { display: flex; align-items: center; gap: 1rem; }
+.bot-avatar { width: 42px; height: 42px; border-radius: 50%; background: #e0f2fe; color: var(--primary); display: flex; align-items: center; justify-content: center; font-size: 1.25rem; border: 2px solid #bae6fd; flex-shrink: 0;}
+
+.chat-body { flex: 1; overflow-y: auto; padding: 1.5rem 1rem; }
+.chat-body-inner { display: flex; flex-direction: column; gap: 1rem; }
+
+.msg-wrap { display: flex; width: 100%; }
+.msg-wrap.user { justify-content: flex-end; }
+
+.msg-bubble { max-width: 85%; padding: 0.75rem 1rem; font-size: 0.9rem; line-height: 1.5; position: relative; word-wrap: break-word; }
+.msg-wrap.bot .msg-bubble { background: #fff; border: 1px solid var(--border); border-radius: 12px 12px 12px 2px; box-shadow: var(--shadow-sm); color: var(--text-main); }
+.msg-wrap.user .msg-bubble { background: var(--primary); color: #fff; border-radius: 12px 12px 2px 12px; box-shadow: 0 4px 10px rgba(13, 148, 136, 0.15); }
+
+.msg-time { font-size: 0.7rem; opacity: 0.7; margin-top: 0.3rem; text-align: right; }
+
+.chat-footer { border-top: 1px solid var(--border); padding: 1rem; background: #fff; z-index: 10; flex-shrink: 0;}
+.chat-footer-inner { display: flex; gap: 0.5rem; align-items: flex-end; }
+.chat-input { flex: 1; background: #f8fafc; border: 1px solid var(--border); border-radius: 10px; padding: 0.75rem 1rem; font-size: 0.9rem; resize: none; max-height: 100px; outline: none; font-family: 'Inter', sans-serif; transition: 0.2s;}
+.chat-input:focus { background: #fff; border-color: var(--primary); box-shadow: 0 0 0 2px rgba(13,148,136,0.1); }
+.send-btn { background: var(--primary); color: #fff; border: none; padding: 0.75rem 1.25rem; border-radius: 10px; font-weight: 600; font-size: 0.9rem; cursor: pointer; transition: 0.2s; height: 100%; display: flex; align-items: center; justify-content: center; flex-shrink: 0;}
+.send-btn:hover { background: var(--primary-hover); transform: translateY(-1px); }
+
+.chat-suggestion { padding: 0.4rem 0.8rem; background: #f0fdfa; color: var(--primary); border: 1px solid #ccfbf1; border-radius: 50px; font-size: 0.8rem; font-weight: 600; cursor: pointer; transition: 0.2s; text-align: center; }
+.chat-suggestion:hover { background: var(--primary); color: #fff; }
+
+.empty-state { text-align: center; padding: 2rem 0.5rem; }
+.empty-icon { font-size: 3rem; margin-bottom: 0.75rem; color: var(--primary); }
+.empty-title { font-size: 1.15rem; font-weight: 800; color: var(--text-main); margin-bottom: 0.5rem; }
+.empty-desc { color: var(--text-muted); font-size: 0.85rem; margin: 0 auto 1.5rem; }
+</style>
+
+<div class="chat-container">
+    <div class="chat-header">
+        <div class="chat-header-inner">
+            <div class="bot-avatar"><i class="fas fa-robot"></i></div>
             <div>
-                <h1 style="font-size:1.25rem;font-weight:800">TravelMate AI Assistant</h1>
-                <div style="font-size:.82rem;color:var(--muted)">RAG-powered · 20+ languages · Real-time travel knowledge</div>
+                <h1 style="font-size: 1.1rem; font-weight: 800; color: var(--text-main); margin: 0;">AI Concierge</h1>
+                <div style="font-size: 0.75rem; color: var(--text-muted); margin-top: 0.1rem;">Online · TravelMate AI</div>
             </div>
-            <div style="margin-left:auto"><span class="badge-pill badge-success" style="font-size:.75rem">● Online</span></div>
         </div>
     </div>
 
-    <div style="flex:1;overflow-y:auto;padding:1.5rem" id="chat-body">
-        <div style="max-width:900px;margin:0 auto;display:flex;flex-direction:column;gap:1rem">
-            {{-- History --}}
+    <div class="chat-body" id="chat-body">
+        <div class="chat-body-inner">
             @forelse($history as $msg)
-            <div style="display:flex;{{ $msg->role==='user'?'justify-content:flex-end':'' }}">
+            <div class="msg-wrap {{ $msg->role==='user'?'user':'bot' }}">
                 @if($msg->role==='assistant')
-                <div style="width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,var(--primary),var(--secondary));display:flex;align-items:center;justify-content:center;margin-right:.75rem;flex-shrink:0;font-size:.9rem;margin-top:4px">🤖</div>
+                <div class="bot-avatar" style="width: 28px; height: 28px; font-size: 0.8rem; margin-right: 0.5rem; flex-shrink: 0; align-self: flex-end; margin-bottom: 0.25rem;"><i class="fas fa-robot"></i></div>
                 @endif
-                <div style="max-width:75%;padding:.75rem 1rem;border-radius:{{ $msg->role==='user'?'16px 16px 4px 16px':'16px 16px 16px 4px' }};background:{{ $msg->role==='user'?'var(--primary)':'var(--surface)' }};border:1px solid var(--border);font-size:.9rem;line-height:1.6">
+                <div class="msg-bubble">
                     {!! nl2br(preg_replace([
                         '/\!\[(.*?)\]\((.*?)\)/',
                         '/\*\*(.*?)\*\*/'
                     ], [
-                        '<img src="$2" alt="$1" style="max-width:100%;height:auto;border-radius:12px;margin:8px 0;display:block;box-shadow:0 4px 12px rgba(0,0,0,0.15)">',
+                        '<img src="$2" alt="$1" style="max-width:100%;height:auto;border-radius:8px;margin:8px 0;border:1px solid #e2e8f0;">',
                         '<strong>$1</strong>'
                     ], e($msg->message))) !!}
-                    <div style="font-size:.72rem;opacity:.6;margin-top:.25rem;text-align:right">{{ $msg->created_at->format('H:i') }}</div>
+                    <div class="msg-time">{{ $msg->created_at->format('h:i A') }}</div>
                 </div>
             </div>
             @empty
-            <div style="text-align:center;padding:2rem;color:var(--muted)">
-                <div style="font-size:3rem;margin-bottom:.75rem">🤖</div>
-                <div style="font-weight:600;margin-bottom:.25rem">Hi! I'm TravelMate AI</div>
-                <div style="font-size:.88rem">Ask me about destinations, packages, visas, weather, or let me build your itinerary!</div>
-                <div style="display:flex;flex-wrap:wrap;gap:.5rem;justify-content:center;margin-top:1.25rem">
-                    @foreach(['🗺️ Top beach destinations','📦 Budget packages under ₹500','🛂 Visa for Japan','🗓️ Plan 7-day Bali trip','💰 Budget tips for solo travel'] as $s)
+            <div class="empty-state">
+                <div class="empty-icon"><i class="fas fa-robot"></i></div>
+                <div class="empty-title">Hi! I'm TravelMate AI</div>
+                <div class="empty-desc">I can help you build itineraries, find packages, and estimate budgets.</div>
+                <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+                    @foreach(['🗺️ Top beach destinations', '📦 Budget packages', '🛂 Visa for Japan', '🗓️ Plan a 7-day Bali trip'] as $s)
                     <button onclick="quickSend(this)" class="chat-suggestion">{{ $s }}</button>
                     @endforeach
                 </div>
@@ -47,68 +104,113 @@
         </div>
     </div>
 
-    <div style="border-top:1px solid var(--border);padding:1rem 1.5rem;background:var(--surface)">
-        <div style="max-width:900px;margin:0 auto;display:flex;gap:.75rem;align-items:flex-end">
-            <textarea id="main-chat-input" class="form-control" rows="1" placeholder="Ask anything about travel..." style="resize:none;max-height:120px;overflow-y:auto"
+    <div class="chat-footer">
+        <div class="chat-footer-inner">
+            <textarea id="main-chat-input" class="chat-input" rows="1" placeholder="Type a message..."
                 onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendMainChat()}"
                 oninput="this.style.height='auto';this.style.height=this.scrollHeight+'px'"></textarea>
-            <button onclick="sendMainChat()" class="btn btn-primary" style="padding:.75rem 1.25rem;flex-shrink:0"><i class="fas fa-paper-plane"></i> Send</button>
+            <button onclick="sendMainChat()" class="send-btn"><i class="fas fa-paper-plane"></i></button>
         </div>
-        <div style="max-width:900px;margin:.5rem auto 0;font-size:.75rem;color:var(--muted)">
-            Shift+Enter for new line · Powered by RAG with live travel knowledge base
+        <div style="margin: 0.5rem auto 0; font-size: 0.7rem; color: var(--text-muted); text-align: center;">
+            <i class="fas fa-bolt" style="color: var(--primary);"></i> Powered by Advanced Travel AI
         </div>
     </div>
 </div>
 
-<style>
-.chat-suggestion{padding:.35rem .85rem;background:rgba(108,99,255,.15);color:var(--primary);border:1px solid rgba(108,99,255,.3);border-radius:50px;font-size:.8rem;cursor:pointer;transition:.15s;}
-.chat-suggestion:hover{background:var(--primary);color:#fff;}
-</style>
 <script>
 let session = null;
 const body = document.getElementById('chat-body');
 const inner = body.firstElementChild;
 body.scrollTop = body.scrollHeight;
 
-function quickSend(btn) { document.getElementById('main-chat-input').value=btn.textContent.trim(); sendMainChat(); }
+function quickSend(btn) { 
+    document.getElementById('main-chat-input').value = btn.textContent.replace(/^[\u2700-\u27BF]|[\uE000-\uF8FF]|\uD83C[\uDC00-\uDFFF]|\uD83D[\uDC00-\uDFFF]|[\u2011-\u26FF]|\uD83E[\uDD10-\uDDFF]/g, '').trim(); 
+    sendMainChat(); 
+}
 
 async function sendMainChat() {
     const input = document.getElementById('main-chat-input');
-    const msg = input.value.trim(); if (!msg) return;
-    appendMsg(msg, 'user'); input.value=''; input.style.height='auto';
-    const typing = appendMsg('Thinking...', 'bot', false, true);
+    const msg = input.value.trim(); 
+    if (!msg) return;
+
+    appendMsg(msg, 'user'); 
+    input.value = ''; 
+    input.style.height = 'auto';
+
+    const typing = appendMsg('Typing...', 'bot', false, true);
+    
     try {
         const res = await fetch('{{ route("chatbot.send") }}', {
-            method:'POST', headers:{'Content-Type':'application/json','X-CSRF-TOKEN':'{{ csrf_token() }}'},
-            body: JSON.stringify({message:msg, session_id:session})
+            method:'POST', 
+            headers:{'Content-Type':'application/json','X-CSRF-TOKEN':'{{ csrf_token() }}'},
+            body: JSON.stringify({message: msg, session_id: session})
         });
         const data = await res.json();
         session = data.session_id;
+        
         typing.remove();
         appendMsg(data.response.text, 'bot', true);
+        
         if (data.response.suggestions?.length) {
             const sug = document.createElement('div');
-            sug.style.cssText='display:flex;flex-wrap:wrap;gap:.5rem;max-width:75%;margin-top:-.5rem';
-            data.response.suggestions.forEach(s=>{
-                const b=document.createElement('button'); b.className='chat-suggestion'; b.textContent=s;
-                b.onclick=()=>quickSend(b); sug.appendChild(b);
+            sug.style.cssText = 'display:flex;flex-wrap:wrap;gap:0.5rem;max-width:85%;margin-top:0.5rem;margin-left:40px;';
+            data.response.suggestions.forEach(s => {
+                const b = document.createElement('button'); 
+                b.className = 'chat-suggestion'; 
+                b.style.fontSize = '0.75rem';
+                b.textContent = s;
+                b.onclick = () => quickSend(b); 
+                sug.appendChild(b);
             });
             inner.appendChild(sug);
+            body.scrollTop = body.scrollHeight;
         }
-    } catch(e) { typing.textContent='Error: '+e.message; }
-    body.scrollTop=body.scrollHeight;
+    } catch(e) { 
+        typing.remove();
+        appendMsg('Sorry, I encountered an error. Please try again.', 'bot');
+    }
 }
 
 function appendMsg(text, role, markdown=false, isTyping=false) {
-    const wrap=document.createElement('div');
-    wrap.style.cssText=`display:flex;${role==='user'?'justify-content:flex-end':''}`;
-    if(role==='bot'){const av=document.createElement('div');av.style.cssText='width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,var(--primary),var(--secondary));display:flex;align-items:center;justify-content:center;margin-right:.75rem;flex-shrink:0;font-size:.9rem;margin-top:4px';av.textContent='🤖';wrap.appendChild(av);}
-    const bubble=document.createElement('div');
-    bubble.style.cssText=`max-width:75%;padding:.75rem 1rem;border-radius:${role==='user'?'16px 16px 4px 16px':'16px 16px 16px 4px'};background:${role==='user'?'var(--primary)':'var(--surface)'};border:1px solid var(--border);font-size:.9rem;line-height:1.6${isTyping?';color:var(--muted);font-style:italic':''}`;
-    bubble.innerHTML=markdown?text.replace(/\!\[(.*?)\]\((.*?)\)/g,'<img src="$2" alt="$1" style="max-width:100%;height:auto;border-radius:12px;margin:8px 0;display:block;box-shadow:0 4px 12px rgba(0,0,0,0.15)">').replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>').replace(/\n/g,'<br>'):text;
-    wrap.appendChild(bubble); inner.appendChild(wrap);
-    body.scrollTop=body.scrollHeight;
+    const wrap = document.createElement('div');
+    wrap.className = 'msg-wrap ' + (role==='user'?'user':'bot');
+    
+    if(role==='bot') {
+        const av = document.createElement('div');
+        av.className = 'bot-avatar';
+        av.style.cssText = 'width: 28px; height: 28px; font-size: 0.8rem; margin-right: 0.5rem; flex-shrink: 0; align-self: flex-end; margin-bottom: 0.25rem;';
+        av.innerHTML = '<i class="fas fa-robot"></i>';
+        wrap.appendChild(av);
+    }
+    
+    const bubble = document.createElement('div');
+    bubble.className = 'msg-bubble';
+    if(isTyping) {
+        bubble.style.color = 'var(--text-muted)';
+        bubble.style.fontStyle = 'italic';
+        bubble.innerHTML = '<i class="fas fa-circle-notch fa-spin" style="margin-right:0.5rem;"></i>' + text;
+    } else {
+        bubble.innerHTML = markdown ? text.replace(/\!\[(.*?)\]\((.*?)\)/g,'<img src="$2" alt="$1" style="max-width:100%;height:auto;border-radius:8px;margin:8px 0;border:1px solid #e2e8f0;">').replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>').replace(/\n/g,'<br>') : text;
+    }
+    
+    const time = document.createElement('div');
+    time.className = 'msg-time';
+    const now = new Date();
+    time.textContent = now.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+    
+    if(!isTyping) bubble.appendChild(time);
+    
+    wrap.appendChild(bubble); 
+    inner.appendChild(wrap);
+    body.scrollTop = body.scrollHeight;
+    
     return wrap;
 }
 </script>
 @endsection
+
+@if(request()->has('widget'))
+    @yield('content')
+</body>
+</html>
+@endif

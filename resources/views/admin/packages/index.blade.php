@@ -9,7 +9,7 @@
         <div>
             <div class="section-tag">⚡ Admin Panel</div>
             <h1 style="font-family:'Playfair Display',serif;font-size:1.8rem;font-weight:900;color:var(--text)">
-                <i class="fas fa-suitcase" style="color:#ff6f00"></i> Package Management
+                <i class="fas fa-suitcase" style="color:var(--secondary)"></i> Package Management
             </h1>
             <p style="color:var(--muted);font-size:.88rem;margin-top:.25rem">Create and manage all travel packages</p>
         </div>
@@ -25,10 +25,10 @@
 
     {{-- ── CREATE PACKAGE FORM (hidden by default) ── --}}
     <div id="createForm" style="display:none;margin-bottom:2.5rem">
-        <div class="card" style="padding:2.5rem;border-left:5px solid #ff6f00;box-shadow:0 15px 35px rgba(0,0,0,0.1)">
+        <div class="card" style="padding:2.5rem;border-left:5px solid var(--secondary);box-shadow:0 15px 35px rgba(0,0,0,0.1)">
             <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:2rem">
                 <h2 style="font-weight:800;color:var(--text);margin:0;display:flex;align-items:center;gap:.75rem">
-                    <i class="fas fa-plus-circle" style="color:#ff6f00"></i> Create New Package
+                    <i class="fas fa-plus-circle" style="color:var(--secondary)"></i> Create New Package
                 </h2>
                 <div style="font-size:.82rem;color:var(--muted)">Fields marked with * are required</div>
             </div>
@@ -156,7 +156,7 @@
 
                 {{-- SECTION 4: PROMOTIONAL DEALS (The New Feature) --}}
                 <div class="form-section form-section-promo">
-                    <div class="form-section-title" style="color:#ff6f00;border-bottom-color:rgba(255,111,0,.2)">
+                    <div class="form-section-title" style="color:var(--secondary);border-bottom-color:rgba(255,111,0,.2)">
                         <i class="fas fa-bullhorn icon-orange"></i> Promotional Offers (Marketplace Badges)
                     </div>
                     <div style="display:grid;grid-template-columns:1fr 2fr 1fr;gap:1.25rem">
@@ -185,7 +185,7 @@
                 <div style="display:flex;justify-content:space-between;align-items:center;padding-top:2rem;border-top:1px solid var(--border)">
                     <div style="display:flex;gap:2rem">
                         <label style="display:flex;align-items:center;gap:.75rem;cursor:pointer;font-weight:600">
-                            <input type="checkbox" name="is_featured" value="1" {{ old('is_featured')?'checked':'' }} style="width:20px;height:20px;accent-color:#ff6f00">
+                            <input type="checkbox" name="is_featured" value="1" {{ old('is_featured')?'checked':'' }} style="width:20px;height:20px;accent-color:var(--secondary)">
                             <span><i class="fas fa-star" style="color:#f9a825"></i> Featured</span>
                         </label>
                         <label style="display:flex;align-items:center;gap:.75rem;cursor:pointer;font-weight:600">
@@ -197,7 +197,7 @@
                         <button type="button" onclick="toggleForm()" class="btn btn-outline" style="padding:.75rem 2rem">
                             <i class="fas fa-times"></i> Cancel
                         </button>
-                        <button type="submit" class="btn btn-primary" style="padding:.75rem 3rem;font-size:1rem;background:#ff6f00">
+                        <button type="submit" class="btn btn-primary" style="padding:.75rem 3rem;font-size:1rem;background:var(--secondary)">
                             <i class="fas fa-cloud-upload-alt"></i> Create & Launch Package
                         </button>
                     </div>
@@ -210,7 +210,7 @@
     <div class="card" style="overflow:hidden">
         <div class="card-header">
             <h2 class="card-title">
-                <i class="fas fa-list" style="color:#ff6f00"></i> All Packages
+                <i class="fas fa-list" style="color:var(--secondary)"></i> All Packages
                 <span class="badge-pill badge-primary" style="margin-left:.5rem">
                     {{ $packages->total() }}
                 </span>
@@ -244,7 +244,7 @@
                                      style="width:48px;height:36px;object-fit:cover;border-radius:8px;border:1px solid var(--border);flex-shrink:0">
                             @else
                                 <div style="width:48px;height:36px;border-radius:8px;background:rgba(255,111,0,.1);border:1px solid rgba(255,111,0,.2);display:flex;align-items:center;justify-content:center;flex-shrink:0">
-                                    <i class="fas fa-image" style="color:#ff6f00;font-size:.7rem"></i>
+                                    <i class="fas fa-image" style="color:var(--secondary);font-size:.7rem"></i>
                                 </div>
                             @endif
                             <div>

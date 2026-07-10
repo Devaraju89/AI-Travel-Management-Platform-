@@ -85,7 +85,7 @@
     gap: 0.3rem;
 }
 .badge-paid { background: rgba(0, 212, 170, 0.15); color: #00d4aa; }
-.badge-pending { background: rgba(255, 202, 40, 0.15); color: #ffca28; }
+.badge-pending { background: rgba(255, 202, 40, 0.15); color: #fed7aa; }
 .badge-cancelled { background: rgba(239, 68, 68, 0.15); color: #ef4444; }
 
 .btn-action {
@@ -99,7 +99,7 @@
     align-items: center;
     gap: 0.4rem;
 }
-.btn-action.view { background: rgba(108, 99, 255, 0.15); color: #a29cf4; border: 1px solid rgba(108,99,255,0.3); }
+.btn-action.view { background: rgba(16, 185, 129, 0.15); color: #a29cf4; border: 1px solid rgba(108,99,255,0.3); }
 .btn-action.view:hover { background: #6c63ff; color: #fff; }
 
 @media(max-width: 900px) {
@@ -130,12 +130,12 @@
             <div class="stat-val" style="color: #00d4aa;">₹{{ number_format($stats['total_spent']) }}</div>
             <div class="stat-label">Total Spent</div>
         </div>
-        <div class="stat-card" style="border-color: rgba(108, 99, 255, 0.2); background: rgba(108, 99, 255, 0.02);">
+        <div class="stat-card" style="border-color: rgba(16, 185, 129, 0.2); background: rgba(16, 185, 129, 0.02);">
             <div class="stat-val" style="color: #a29cf4;">{{ $stats['total_bookings'] }}</div>
             <div class="stat-label">Bookings Count</div>
         </div>
         <div class="stat-card" style="border-color: rgba(255, 202, 40, 0.2); background: rgba(255, 202, 40, 0.02);">
-            <div class="stat-val" style="color: #ffca28;">{{ $stats['confirmed'] }}</div>
+            <div class="stat-val" style="color: #fed7aa;">{{ $stats['confirmed'] }}</div>
             <div class="stat-label">Confirmed Stays</div>
         </div>
         <div class="stat-card" style="border-color: rgba(239, 68, 68, 0.2); background: rgba(239, 68, 68, 0.02);">
@@ -186,7 +186,7 @@
                         <td style="font-family: monospace; font-weight: 700; color: #a29cf4;">{{ $b->booking_reference }}</td>
                         <td>
                             @if($b->booking_type === 'package')
-                                <span style="color: #ffca28; font-size: 0.8rem; font-weight: 700;"><i class="fas fa-suitcase"></i> PACKAGE</span>
+                                <span style="color: #fed7aa; font-size: 0.8rem; font-weight: 700;"><i class="fas fa-suitcase"></i> PACKAGE</span>
                             @elseif($b->booking_type === 'itinerary')
                                 <span style="color: #ff7b00; font-size: 0.8rem; font-weight: 700;"><i class="fas fa-map-marked-alt"></i> ITINERARY</span>
                             @else
@@ -301,7 +301,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 label: 'Spending (INR)',
                 data: {!! json_encode(collect($monthlySpend)->pluck('amount')) !!},
                 borderColor: '#6c63ff',
-                backgroundColor: 'rgba(108, 99, 255, 0.12)',
+                backgroundColor: 'rgba(16, 185, 129, 0.12)',
                 borderWidth: 3,
                 tension: 0.4,
                 fill: true,
@@ -329,7 +329,7 @@ document.addEventListener('DOMContentLoaded', function () {
             labels: ['Packages', 'Hotels', 'Others'],
             datasets: [{
                 data: [{{ $byType['package'] }}, {{ $byType['hotel'] }}, {{ $byType['other'] }}],
-                backgroundColor: ['#ffca28', '#00d4aa', '#6c63ff'],
+                backgroundColor: ['#fed7aa', '#00d4aa', '#6c63ff'],
                 borderWidth: 0,
                 hoverOffset: 10
             }]

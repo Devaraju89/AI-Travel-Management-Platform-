@@ -581,7 +581,7 @@ function renderResult(plan, itinerary) {
             <div class="card" style="margin-top:2rem; padding:2rem 1.5rem; border-radius:16px; background:linear-gradient(135deg, #0e1e38 0%, #050e21 100%); border:1px solid rgba(255,111,0,0.25); text-align:center; position:relative; overflow:hidden; box-shadow:0 15px 30px rgba(0,0,0,0.4); margin-bottom:1.5rem;">
                 <div style="position:relative; z-index:1;">
                     <div style="width:45px; height:45px; margin:0 auto 1rem; background:rgba(255,111,0,0.1); border-radius:50%; display:flex; align-items:center; justify-content:center; border:1px solid rgba(255,111,0,0.2);">
-                        <i class="fas fa-lock" style="color:#ff6f00; font-size:1.2rem;"></i>
+                        <i class="fas fa-lock" style="color:var(--secondary); font-size:1.2rem;"></i>
                     </div>
                     <h4 style="font-family:'Playfair Display',serif; font-size:1.4rem; font-weight:800; color:#fff; margin-bottom:0.5rem;">🔒 Premium Plan Locked (Day 2 to ${plan.total_days})</h4>
                     <p style="color:#b0c4de; max-width:600px; margin:0 auto 1rem; font-size:0.9rem; line-height:1.6;">
@@ -596,7 +596,7 @@ function renderResult(plan, itinerary) {
 
     // Direct the user to the itinerary detail page to trigger payment OR view it fully
     document.getElementById('view-btn').className = 'btn btn-primary';
-    document.getElementById('view-btn').style.cssText = 'padding:1.1rem 3rem; font-size:1.1rem; border-radius:50px; background:linear-gradient(135deg, #ffca28, #ff6f00); box-shadow:0 8px 25px rgba(255,111,0,0.4); border:none; display:inline-flex; align-items:center; gap:0.5rem; color:#fff; font-weight:800; cursor:pointer;';
+    document.getElementById('view-btn').style.cssText = 'padding:1.1rem 3rem; font-size:1.1rem; border-radius:50px; background:linear-gradient(135deg, #fed7aa, var(--secondary)); box-shadow:0 8px 25px rgba(255,111,0,0.4); border:none; display:inline-flex; align-items:center; gap:0.5rem; color:#fff; font-weight:800; cursor:pointer;';
     
     if (itinerary.is_paid) {
         document.getElementById('view-btn').innerHTML = '<i class="fas fa-eye"></i> View Full Saved Itinerary';

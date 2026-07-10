@@ -14,7 +14,7 @@
     @endphp
     <style>
         body { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; color: #333; line-height: 1.5; font-size: 12px; }
-        .header { text-align: center; border-bottom: 2px solid #ff6f00; padding-bottom: 20px; margin-bottom: 20px; }
+        .header { text-align: center; border-bottom: 2px solid var(--secondary); padding-bottom: 20px; margin-bottom: 20px; }
         .header h1 { color: #0d2b6b; margin: 0 0 10px; font-size: 24px; }
         .header p { margin: 0; color: #666; font-size: 14px; }
         .meta-box { background: #f8fafc; padding: 15px; border-radius: 5px; margin-bottom: 20px; border: 1px solid #e2e8f0; }
@@ -25,7 +25,7 @@
         .day-header { background: #0d2b6b; color: #fff; padding: 10px 15px; font-weight: bold; font-size: 14px; }
         .slot { border-bottom: 1px solid #e2e8f0; padding: 10px 15px; }
         .slot:last-child { border-bottom: none; }
-        .slot-time { color: #ff6f00; font-weight: bold; float: left; width: 100px; }
+        .slot-time { color: var(--secondary); font-weight: bold; float: left; width: 100px; }
         .slot-details { margin-left: 110px; }
         .slot-title { font-weight: bold; font-size: 13px; color: #1e293b; }
         .slot-notes { color: #64748b; font-size: 11px; margin-top: 3px; }

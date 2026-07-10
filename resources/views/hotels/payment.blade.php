@@ -23,7 +23,7 @@
     {{-- Payment Card --}}
     <div class="pay-card">
         <div style="font-size:1.8rem;font-weight:900;color:#fff;margin-bottom:.3rem">🏨 Hotel Payment</div>
-        <div style="color:#b0c4de;margin-bottom:2rem">Ref: <strong style="color:#ffca28">{{ $booking->booking_reference }}</strong></div>
+        <div style="color:#b0c4de;margin-bottom:2rem">Ref: <strong style="color:#fed7aa">{{ $booking->booking_reference }}</strong></div>
 
         {{-- Hotel Info --}}
         @if($booking->hotel)
@@ -72,7 +72,7 @@
         </button>
 
         {{-- Test Credentials --}}
-        <div style="margin-top:1.5rem;background:rgba(255,202,40,.08);border:1px solid rgba(255,202,40,.25);border-radius:12px;padding:1.2rem;font-size:.82rem;color:#ffca28">
+        <div style="margin-top:1.5rem;background:rgba(255,202,40,.08);border:1px solid rgba(255,202,40,.25);border-radius:12px;padding:1.2rem;font-size:.82rem;color:#fed7aa">
             <div style="font-weight:700;margin-bottom:.75rem"><i class="fas fa-flask"></i> Test Credentials</div>
             <div style="display:grid;grid-template-columns:1fr 1fr;gap:.75rem">
                 <div style="background:rgba(0,0,0,.3);border-radius:8px;padding:.75rem">

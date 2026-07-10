@@ -74,11 +74,11 @@
     <div class="card" style="display: flex; flex-direction: column;">
         <div class="card-header" style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.75rem;">
             <div class="card-title" style="margin-bottom: 0;">
-                <i class="fas fa-chart-line" id="revenueIcon" style="color:#ff6f00; transition: all 0.3s ease;"></i> Revenue — Last 6 Months
+                <i class="fas fa-chart-line" id="revenueIcon" style="color:var(--secondary); transition: all 0.3s ease;"></i> Revenue — Last 6 Months
             </div>
             <div style="display: flex; gap: 0.75rem; align-items: center;">
                 <div class="chart-switcher" style="display: flex; background: rgba(255,255,255,0.03); border-radius: 8px; padding: 3px; border: 1px solid var(--border)">
-                    <button onclick="switchRevenueChart('line')" id="btn-chart-line" class="btn-chart-switch active" style="background: rgba(255, 111, 0, 0.2); color: #ff6f00; border: 1px solid rgba(255, 111, 0, 0.4); padding: 4px 12px; border-radius: 6px; font-size: 0.72rem; font-weight: 700; cursor: pointer; transition: all 0.25s ease; display: flex; align-items: center; gap: 4px;">
+                    <button onclick="switchRevenueChart('line')" id="btn-chart-line" class="btn-chart-switch active" style="background: rgba(255, 111, 0, 0.2); color: var(--secondary); border: 1px solid rgba(255, 111, 0, 0.4); padding: 4px 12px; border-radius: 6px; font-size: 0.72rem; font-weight: 700; cursor: pointer; transition: all 0.25s ease; display: flex; align-items: center; gap: 4px;">
                         <i class="fas fa-chart-area"></i> Spline Area
                     </button>
                     <button onclick="switchRevenueChart('bar')" id="btn-chart-bar" class="btn-chart-switch" style="background: transparent; color: var(--muted); border: 1px solid transparent; padding: 4px 12px; border-radius: 6px; font-size: 0.72rem; font-weight: 700; cursor: pointer; transition: all 0.25s ease; display: flex; align-items: center; gap: 4px;">
@@ -116,7 +116,7 @@
     {{-- Recent Bookings --}}
     <div class="card">
         <div class="card-header">
-            <div class="card-title"><i class="fas fa-ticket" style="color:#ff6f00"></i> Recent Bookings</div>
+            <div class="card-title"><i class="fas fa-ticket" style="color:var(--secondary)"></i> Recent Bookings</div>
             <a href="{{ route('admin.bookings') }}" class="btn btn-ghost btn-sm">View All</a>
         </div>
         <div style="overflow:hidden;border-radius:0 0 var(--radius) var(--radius)">
@@ -214,13 +214,13 @@
     {{-- Quick Actions --}}
     <div class="card">
         <div class="card-header">
-            <div class="card-title"><i class="fas fa-bolt" style="color:#ff6f00"></i> Quick Actions</div>
+            <div class="card-title"><i class="fas fa-bolt" style="color:var(--secondary)"></i> Quick Actions</div>
         </div>
         <div style="padding:1.25rem 1.5rem;display:grid;grid-template-columns:1fr 1fr;gap:.85rem">
             @foreach([
                 [route('admin.users'),        'fa-users',         'Manage Users',    '#0d2b6b'],
                 [route('admin.bookings'),      'fa-ticket',        'Bookings',        '#0288d1'],
-                [route('admin.packages'),      'fa-suitcase',      'Add Package',     '#ff6f00'],
+                [route('admin.packages'),      'fa-suitcase',      'Add Package',     'var(--secondary)'],
                 [route('admin.destinations'),  'fa-globe',         'Destinations',    '#2e7d32'],
                 [route('admin.tickets'),       'fa-headset',       'Support Tickets', '#e65100'],
                 [route('admin.reviews'),       'fa-flag',          'Mod Reviews',     '#c62828'],
@@ -284,10 +284,10 @@ function buildRevenueChart(type = 'line') {
     if (revIcon) {
         if (type === 'line') {
             revIcon.className = 'fas fa-chart-line';
-            revIcon.style.color = '#ff6f00';
+            revIcon.style.color = 'var(--secondary)';
         } else {
             revIcon.className = 'fas fa-chart-bar';
-            revIcon.style.color = '#ffca28';
+            revIcon.style.color = '#fed7aa';
         }
     }
 
@@ -302,9 +302,9 @@ function buildRevenueChart(type = 'line') {
 
         // Stroke gradient
         const strokeGrad = ctx.createLinearGradient(0, 0, canvas.width || 400, 0);
-        strokeGrad.addColorStop(0, '#ffca28');
+        strokeGrad.addColorStop(0, '#fed7aa');
         strokeGrad.addColorStop(0.5, '#ff8f00');
-        strokeGrad.addColorStop(1, '#ff6f00');
+        strokeGrad.addColorStop(1, 'var(--secondary)');
 
         datasetOpts = {
             borderColor: strokeGrad,
@@ -312,28 +312,28 @@ function buildRevenueChart(type = 'line') {
             fill: true,
             tension: 0.4,
             borderWidth: 3,
-            pointBackgroundColor: '#ff6f00',
+            pointBackgroundColor: 'var(--secondary)',
             pointBorderColor: '#fff',
             pointBorderWidth: 1.5,
             pointRadius: 4,
             pointHoverRadius: 7,
             pointHoverBackgroundColor: '#fff',
-            pointHoverBorderColor: '#ff6f00',
+            pointHoverBorderColor: 'var(--secondary)',
             pointHoverBorderWidth: 3,
         };
     } else {
         // Bar vertical gradient
         const barGrad = ctx.createLinearGradient(0, 0, 0, 240);
         barGrad.addColorStop(0, '#ff9f3b');
-        barGrad.addColorStop(0.5, '#ff6f00');
+        barGrad.addColorStop(0.5, 'var(--secondary)');
         barGrad.addColorStop(1, 'rgba(255, 111, 0, 0.12)');
 
         datasetOpts = {
             backgroundColor: barGrad,
-            borderColor: '#ff6f00',
+            borderColor: 'var(--secondary)',
             borderWidth: 1.5,
             borderRadius: 8,
-            hoverBackgroundColor: '#ffca28',
+            hoverBackgroundColor: '#fed7aa',
             hoverBorderColor: '#fff',
         };
     }
@@ -361,7 +361,7 @@ function buildRevenueChart(type = 'line') {
                     backgroundColor: 'rgba(13, 27, 42, 0.95)',
                     titleColor: '#fff',
                     titleFont: { weight: 'bold', family: "'Inter', sans-serif" },
-                    bodyColor: '#ff6f00',
+                    bodyColor: 'var(--secondary)',
                     bodyFont: { weight: 'bold', size: 13, family: "'Inter', sans-serif" },
                     borderColor: 'rgba(255, 111, 0, 0.35)',
                     borderWidth: 1,
@@ -409,7 +409,7 @@ function switchRevenueChart(type) {
     
     if (type === 'line') {
         btnLine.style.background = 'rgba(255, 111, 0, 0.2)';
-        btnLine.style.color = '#ff6f00';
+        btnLine.style.color = 'var(--secondary)';
         btnLine.style.borderColor = 'rgba(255, 111, 0, 0.4)';
         
         btnBar.style.background = 'transparent';
@@ -417,7 +417,7 @@ function switchRevenueChart(type) {
         btnBar.style.borderColor = 'transparent';
     } else {
         btnBar.style.background = 'rgba(255, 111, 0, 0.2)';
-        btnBar.style.color = '#ff6f00';
+        btnBar.style.color = 'var(--secondary)';
         btnBar.style.borderColor = 'rgba(255, 111, 0, 0.4)';
         
         btnLine.style.background = 'transparent';
@@ -443,7 +443,7 @@ if (typeCanvas) {
             }),
             datasets: [{
                 data: typeData.map(t => t.count),
-                backgroundColor: ['#ff6f00', '#0288d1', '#2e7d32', '#f9a825', '#ab47bc', '#c62828'],
+                backgroundColor: ['var(--secondary)', '#0288d1', '#2e7d32', '#f9a825', '#ab47bc', '#c62828'],
                 borderColor: '#050508',
                 borderWidth: 3,
                 hoverOffset: 8
