@@ -13,6 +13,7 @@
         "laravel/socialite": "^5.27",
         "laravel/tinker": "^2.10.1",
         "league/flysystem-aws-s3-v3": "^3.32",
+        "ext-mongodb": "*",
         "mongodb/laravel-mongodb": "*",
         "razorpay/razorpay": "^2.9",
         "spatie/laravel-permission": "^6.25"
