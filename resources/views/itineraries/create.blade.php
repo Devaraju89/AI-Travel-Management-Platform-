@@ -1,134 +1,172 @@
 @extends('layouts.app')
 @section('title','AI Itinerary Builder')
+
+@push('styles')
+<style>
+    .itinerary-hero { background: linear-gradient(135deg, var(--primary), #0a5c54); padding: 4rem 2rem 3rem; text-align: center; color: #fff; margin-top: -70px; padding-top: 110px; }
+    .hero-title { font-family: 'Playfair Display', serif; font-size: 2.5rem; font-weight: 800; margin-bottom: 0.5rem; }
+    .hero-subtitle { color: rgba(255,255,255,0.8); font-size: 1.05rem; max-width: 600px; margin: 0 auto; }
+    .form-container { max-width: 900px; margin: -2rem auto 4rem; position: relative; z-index: 10; }
+    
+    .form-group { margin-bottom: 1.5rem; }
+    .form-label { display: block; font-weight: 600; margin-bottom: 0.5rem; font-size: 0.95rem; color: var(--text-main); }
+    .form-control { width: 100%; padding: 0.75rem 1rem; border: 1px solid var(--border); border-radius: 8px; font-size: 0.95rem; transition: 0.2s; background: #fff; }
+    .form-control:focus { border-color: var(--primary); outline: none; box-shadow: 0 0 0 3px rgba(13,148,136,0.1); }
+    
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+    @media (max-width: 768px) { .grid-2 { grid-template-columns: 1fr; } }
+    
+    .interest-grid { display: flex; flex-wrap: wrap; gap: 0.75rem; }
+    .interest-label { display: flex; align-items: center; gap: 0.5rem; padding: 0.6rem 1.25rem; background: var(--bg-body); border: 1px solid var(--border); border-radius: 50px; cursor: pointer; font-size: 0.9rem; font-weight: 500; transition: 0.2s; color: var(--text-muted); }
+    .interest-label:hover { border-color: var(--primary); color: var(--primary); }
+    .interest-label:has(input:checked) { background: #f0fdfa; border-color: var(--primary); color: var(--primary); box-shadow: 0 2px 4px rgba(13,148,136,0.1); }
+    
+    .autocomplete-box { display: none; position: absolute; top: 100%; left: 0; right: 0; background: #fff; border: 1px solid var(--border); border-radius: 8px; box-shadow: var(--shadow-lg); z-index: 999; max-height: 220px; overflow-y: auto; margin-top: 0.25rem; }
+    .autocomplete-item { padding: 0.75rem 1rem; cursor: pointer; border-bottom: 1px solid var(--bg-body); display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; transition: 0.2s; }
+    .autocomplete-item:hover { background: var(--bg-body); }
+    
+    .day-card { background: #fff; border: 1px solid var(--border); border-radius: 12px; margin-bottom: 1rem; box-shadow: var(--shadow-sm); overflow: hidden; }
+    .day-header { padding: 1rem 1.25rem; background: var(--bg-body); border-bottom: 1px solid var(--border); font-weight: 700; cursor: pointer; display: flex; justify-content: space-between; color: var(--primary); }
+    .day-slots { padding: 1rem 1.25rem; }
+    .slot-row { display: flex; gap: 1rem; padding: 0.75rem 0; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
+    .slot-row:last-child { border-bottom: none; }
+    .slot-time { color: var(--text-muted); min-width: 100px; font-weight: 600; font-size: 0.85rem; }
+</style>
+@endpush
+
 @section('content')
-<div style="background:linear-gradient(135deg,#0f0f2e,#0a1628);padding:4rem 2rem 2rem">
-    <div style="max-width:800px;margin:0 auto;text-align:center">
-        <div class="section-tag">🤖 AI Engine</div>
-        <h1 style="font-family:'Playfair Display',serif;font-size:2.5rem;font-weight:900;margin:.5rem 0">Generate Your Perfect Itinerary</h1>
-        <p style="color:var(--muted)">Powered by genetic algorithm optimization + collaborative filtering from 10M+ travel logs</p>
+<div class="itinerary-hero">
+    <div style="display:inline-block; background:rgba(255,255,255,0.2); padding:0.25rem 1rem; border-radius:50px; font-size:0.85rem; font-weight:600; margin-bottom:1rem; border:1px solid rgba(255,255,255,0.3); backdrop-filter:blur(4px);">
+        🤖 AI Engine
     </div>
+    <h1 class="hero-title">Generate Your Perfect Itinerary</h1>
+    <p class="hero-subtitle">Powered by genetic algorithm optimization & collaborative filtering from millions of travel logs.</p>
 </div>
-<section class="section" style="padding-top:2rem">
-    <div class="section-inner" style="max-width:900px;margin:0 auto">
-        <div class="card" style="padding:2.5rem">
-            <form id="itinerary-form">
-                @csrf
-                @if(isset($hasPremiumAccess) && $hasPremiumAccess)
-                    <div style="background:rgba(255, 215, 0, 0.1); border:1px solid rgba(255, 215, 0, 0.3); border-radius:12px; padding:1rem 1.5rem; margin-bottom:1.5rem; text-align:center;">
-                        <div style="font-weight:700; color:var(--gold); margin-bottom:0.25rem;"><i class="fas fa-crown"></i> Premium Access Unlocked!</div>
-                        <div style="font-size:0.85rem; color:var(--muted)">Because you purchased a premium itinerary before, all future itinerary generation is free.</div>
+
+<div class="container form-container">
+    <div class="card" style="padding: 2.5rem; background: #fff;">
+        <form id="itinerary-form">
+            @csrf
+            
+            @if(isset($hasPremiumAccess) && $hasPremiumAccess)
+                <div class="alert" style="background:#fffbeb; border-color:#fef3c7; color:#92400e; margin-bottom: 2rem;">
+                    <i class="fas fa-crown" style="color:#f59e0b; font-size:1.25rem;"></i>
+                    <div>
+                        <div style="font-weight:700;">Premium Access Unlocked!</div>
+                        <div style="font-size:0.85rem; margin-top:0.25rem;">Because you purchased a premium itinerary before, all future itinerary generation is free.</div>
                     </div>
-                @elseif(request('booking_id'))
-                    <input type="hidden" name="booking_id" value="{{ request('booking_id') }}">
-                    <div style="background:rgba(0,212,170,0.1); border:1px solid rgba(0,212,170,0.3); border-radius:12px; padding:1rem 1.5rem; margin-bottom:1.5rem; text-align:center;">
-                        <div style="font-weight:700; color:#00d4aa; margin-bottom:0.25rem;"><i class="fas fa-gift"></i> Complimentary Premium AI Trip Plan Included!</div>
-                        <div style="font-size:0.85rem; color:var(--muted)">Because you recently booked a package, this premium AI itinerary generation is completely free.</div>
+                </div>
+            @elseif(request('booking_id'))
+                <input type="hidden" name="booking_id" id="booking-id-input" value="{{ request('booking_id') }}">
+                <div class="alert alert-success" style="margin-bottom: 2rem;">
+                    <i class="fas fa-gift" style="font-size:1.25rem;"></i>
+                    <div>
+                        <div style="font-weight:700;">Complimentary Premium AI Trip Plan Included!</div>
+                        <div style="font-size:0.85rem; margin-top:0.25rem;">Because you recently booked a package, this premium AI itinerary generation is completely free.</div>
                     </div>
-                @endif
-                <div class="grid-2" style="gap:1.5rem;margin-bottom:1.5rem">
-                    <div class="form-group" style="position:relative">
-                        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.45rem;">
-                            <label class="form-label" style="margin:0;"><i class="fas fa-map-marker-alt" style="color:var(--primary)"></i> Starting City (Origin) *</label>
-                            <button type="button" onclick="detectLiveOrigin()" class="btn btn-sm btn-ghost" style="padding:0.15rem 0.6rem; font-size:0.75rem; color:var(--primary); border:1px solid var(--border);"><i class="fas fa-location-crosshairs"></i> Detect Live Location</button>
-                        </div>
-                        <input type="text" name="origin" id="origin-input" class="form-control" placeholder="e.g. Mumbai, Phagwara, Bengaluru" value="{{ request('origin') ?? 'Mumbai, India' }}" autocomplete="off" required>
-                        <div id="origin-autocomplete" style="display:none;position:absolute;top:100%;left:0;right:0;background:#151538;border:1px solid rgba(255,255,255,0.15);border-radius:12px;box-shadow:0 15px 35px rgba(0,0,0,0.6);z-index:999;max-height:220px;overflow-y:auto;margin-top:.25rem">
-                            <!-- Autocomplete results will appear here -->
-                        </div>
+                </div>
+            @endif
+
+            <div class="grid-2">
+                <div class="form-group" style="position:relative;">
+                    <div style="display:flex; justify-content:space-between; align-items:center;">
+                        <label for="origin-input" class="form-label"><i class="fas fa-map-marker-alt" style="color:#ef4444;"></i> Starting City (Origin) *</label>
+                        <button type="button" onclick="detectLiveOrigin()" class="btn btn-outline" style="padding:0.2rem 0.6rem; font-size:0.75rem;"><i class="fas fa-location-crosshairs"></i> Detect Location</button>
                     </div>
-                    <div class="form-group" style="position:relative">
-                        <label class="form-label"><i class="fas fa-globe" style="color:var(--primary)"></i> Destination *</label>
-                        <input type="text" name="destination_name" id="dest-input" class="form-control" placeholder="Search any destination in the world" autocomplete="off" required value="{{ request('destination') ?? 'Goa, India' }}">
-                        <div id="dest-autocomplete" style="display:none;position:absolute;top:100%;left:0;right:0;background:#151538;border:1px solid rgba(255,255,255,0.15);border-radius:12px;box-shadow:0 15px 35px rgba(0,0,0,0.6);z-index:999;max-height:220px;overflow-y:auto;margin-top:.25rem">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label"><i class="fas fa-calendar" style="color:var(--secondary)"></i> Start Date *</label>
-                        <input type="date" name="start_date" class="form-control" min="{{ date('Y-m-d') }}" required value="{{ request('start_date') ?? date('Y-m-d', strtotime('+7 days')) }}">
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label"><i class="fas fa-clock" style="color:var(--accent)"></i> Duration (days) *</label>
-                        <input type="number" name="duration_days" class="form-control" min="1" max="30" value="{{ request('duration_days') ?? 7 }}" required>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label"><i class="fas fa-wallet" style="color:var(--gold)"></i> Total Budget (INR) *</label>
-                        <input type="number" name="budget" class="form-control" min="1000" step="500" placeholder="e.g. 15000" value="15000" required>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label"><i class="fas fa-users" style="color:var(--primary)"></i> Group Type</label>
-                        <select name="group_type" class="form-control">
-                            <option value="solo">Solo Traveler</option>
-                            <option value="couple">Couple</option>
-                            <option value="family">Family</option>
-                            <option value="group">Group (6+)</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label"><i class="fas fa-heart" style="color:var(--accent)"></i> Travel Style</label>
-                        <select name="travel_style" class="form-control">
-                            <option value="">Any</option>
-                            <option value="adventure">Adventure</option>
-                            <option value="relaxation">Relaxation & Spa</option>
-                            <option value="cultural">Cultural & Heritage</option>
-                            <option value="culinary">Culinary & Food</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label"><i class="fas fa-utensils" style="color:var(--accent)"></i> Include Food/Meals?</label>
-                        <select name="include_food" class="form-control">
-                            <option value="1">Yes, include food budget</option>
-                            <option value="0" selected>No, I will manage food separately</option>
-                        </select>
-                    </div>
+                    <input type="text" name="origin" id="origin-input" class="form-control" placeholder="e.g. Mumbai, Phagwara, Bengaluru" value="{{ request('origin') ?? 'Mumbai, India' }}" autocomplete="off" required>
+                    <div id="origin-autocomplete" class="autocomplete-box"></div>
+                </div>
+                
+                <div class="form-group" style="position:relative;">
+                    <label for="dest-input" class="form-label"><i class="fas fa-globe" style="color:#3b82f6;"></i> Destination *</label>
+                    <input type="text" name="destination_name" id="dest-input" class="form-control" placeholder="Search any destination in the world" autocomplete="off" required value="{{ request('destination') ?? 'Goa, India' }}">
+                    <div id="dest-autocomplete" class="autocomplete-box"></div>
                 </div>
 
                 <div class="form-group">
-                    <label class="form-label"><i class="fas fa-compass" style="color:var(--secondary)"></i> Interests (select all that apply)</label>
-                    <div style="display:flex;flex-wrap:wrap;gap:.75rem;margin-top:.5rem">
-                        @foreach([['adventure','🧗 Adventure'],['culinary','🍜 Culinary'],['heritage','🏛️ Heritage'],['ecotourism','🌿 Ecotourism'],['relaxation','🧘 Relaxation'],['urban','🏙️ Urban Explorer']] as [$val,$label])
-                        <label style="display:flex;align-items:center;gap:.5rem;padding:.5rem 1rem;background:var(--surface2);border:1px solid var(--border);border-radius:50px;cursor:pointer;font-size:.88rem;transition:.2s" class="interest-label">
-                            <input type="checkbox" name="interests[]" value="{{ $val }}" style="display:none"> {{ $label }}
-                        </label>
-                        @endforeach
-                    </div>
+                    <label for="start-date-input" class="form-label"><i class="fas fa-calendar" style="color:#8b5cf6;"></i> Start Date *</label>
+                    <input type="date" name="start_date" id="start-date-input" class="form-control" min="{{ date('Y-m-d') }}" required value="{{ request('start_date') ?? date('Y-m-d', strtotime('+7 days')) }}">
                 </div>
 
-                <div style="text-align:center;margin-top:2rem">
-                    <button type="submit" class="btn btn-primary" style="padding:1rem 3rem;font-size:1.1rem" id="generate-btn">
-                        <i class="fas fa-wand-magic-sparkles"></i> Generate AI Itinerary
-                    </button>
+                <div class="form-group">
+                    <label for="duration-input" class="form-label"><i class="fas fa-clock" style="color:#f59e0b;"></i> Duration (days) *</label>
+                    <input type="number" name="duration_days" id="duration-input" class="form-control" min="1" max="30" value="{{ request('duration_days') ?? 7 }}" required>
                 </div>
-            </form>
-        </div>
 
-        {{-- Result --}}
-        <div id="result-container" style="display:none;margin-top:2rem">
-            <div class="card" style="padding:2rem">
-                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.5rem;flex-wrap:wrap;gap:1rem">
-                    <div>
-                        <h2 style="font-weight:800;font-size:1.4rem" id="res-title">Your Itinerary</h2>
-                        <div style="font-size:.85rem;color:var(--muted)" id="res-meta"></div>
-                    </div>
-                    <div id="res-badges" style="display:flex;gap:.5rem;flex-wrap:wrap"></div>
+                <div class="form-group">
+                    <label for="budget-input" class="form-label"><i class="fas fa-wallet" style="color:#10b981;"></i> Total Budget (INR) *</label>
+                    <input type="number" name="budget" id="budget-input" class="form-control" min="1000" step="500" placeholder="e.g. 15000" value="15000" required>
                 </div>
-                <div id="days-container"></div>
-                <div style="margin-top:1.5rem;text-align:center;display:flex;gap:1rem;justify-content:center;">
-                    <a id="view-btn" href="#" class="btn btn-primary" style="padding:.85rem 2rem;font-size:1rem"><i class="fas fa-eye"></i> View Full Itinerary</a>
-                    <a id="download-btn" href="#" class="btn btn-outline" style="padding:.85rem 2rem;font-size:1rem;background:#1565c0;color:#fff;border:none;"><i class="fas fa-download"></i> Download PDF</a>
+
+                <div class="form-group">
+                    <label for="group-type-select" class="form-label"><i class="fas fa-users" style="color:#0ea5e9;"></i> Group Type</label>
+                    <select name="group_type" id="group-type-select" class="form-control">
+                        <option value="solo">Solo Traveler</option>
+                        <option value="couple">Couple</option>
+                        <option value="family">Family</option>
+                        <option value="group">Group (6+)</option>
+                    </select>
                 </div>
+
+                <div class="form-group">
+                    <label for="travel-style-select" class="form-label"><i class="fas fa-heart" style="color:#ec4899;"></i> Travel Style</label>
+                    <select name="travel_style" id="travel-style-select" class="form-control">
+                        <option value="">Any</option>
+                        <option value="adventure">Adventure</option>
+                        <option value="relaxation">Relaxation & Spa</option>
+                        <option value="cultural">Cultural & Heritage</option>
+                        <option value="culinary">Culinary & Food</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="include-food-select" class="form-label"><i class="fas fa-utensils" style="color:#f97316;"></i> Include Food/Meals?</label>
+                    <select name="include_food" id="include-food-select" class="form-control">
+                        <option value="1">Yes, include food budget</option>
+                        <option value="0" selected>No, I will manage food separately</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group" style="margin-top: 1rem;">
+                <label class="form-label"><i class="fas fa-compass" style="color:var(--text-main);"></i> Interests (Select all that apply)</label>
+                <div class="interest-grid">
+                    @foreach([['adventure','🧗 Adventure'],['culinary','🍜 Culinary'],['heritage','🏛️ Heritage'],['ecotourism','🌿 Ecotourism'],['relaxation','🧘 Relaxation'],['urban','🏙️ Urban Explorer']] as [$val,$label])
+                    <label for="interest-{{ $val }}" class="interest-label">
+                        <input type="checkbox" name="interests[]" id="interest-{{ $val }}" value="{{ $val }}" style="display:none"> {{ $label }}
+                    </label>
+                    @endforeach
+                </div>
+            </div>
+
+            <div style="text-align:center; margin-top:2.5rem;">
+                <button type="submit" class="btn btn-primary" style="padding:1rem 3rem; font-size:1.1rem; border-radius:50px; box-shadow: 0 10px 25px rgba(13,148,136,0.3);" id="generate-btn">
+                    <i class="fas fa-wand-magic-sparkles"></i> Generate AI Itinerary
+                </button>
+            </div>
+        </form>
+    </div>
+
+    {{-- Result Section --}}
+    <div id="result-container" style="display:none; margin-top:3rem;">
+        <div class="card" style="padding: 2.5rem; background: #fff;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:2rem; flex-wrap:wrap; gap:1rem; border-bottom: 1px solid var(--border); padding-bottom: 1.5rem;">
+                <div>
+                    <h2 style="font-weight:800; font-size:1.75rem; color: var(--text-main); margin-bottom: 0.25rem;" id="res-title">Your Itinerary</h2>
+                    <div style="font-size:0.95rem; color:var(--text-muted);" id="res-meta"></div>
+                </div>
+                <div id="res-badges" style="display:flex; gap:0.5rem; flex-wrap:wrap;"></div>
+            </div>
+            
+            <div id="days-container"></div>
+            
+            <div style="margin-top:2.5rem; padding-top: 1.5rem; border-top: 1px solid var(--border); text-align:center; display:flex; gap:1rem; justify-content:center; flex-wrap:wrap;">
+                <a id="view-btn" href="#" class="btn btn-primary" style="padding:0.85rem 2rem; font-size:1rem; border-radius:50px;"><i class="fas fa-eye"></i> View Full Itinerary</a>
+                <a id="download-btn" href="#" class="btn btn-outline" style="padding:0.85rem 2rem; font-size:1rem; border-radius:50px; color: var(--primary);"><i class="fas fa-download"></i> Download PDF</a>
             </div>
         </div>
     </div>
-</section>
-
-<style>
-.interest-label:has(input:checked) { background:rgba(108,99,255,.2);border-color:var(--primary);color:var(--primary); }
-.day-card { background:var(--surface2);border-radius:12px;margin-bottom:1rem;overflow:hidden; }
-.day-header { padding:.75rem 1.25rem;background:rgba(108,99,255,.1);border-bottom:1px solid var(--border);font-weight:700;cursor:pointer;display:flex;justify-content:space-between; }
-.day-slots { padding:1rem 1.25rem; }
-.slot-row { display:flex;gap:1rem;padding:.6rem 0;border-bottom:1px solid var(--border);font-size:.88rem; }
-.slot-time { color:var(--muted);min-width:120px;font-size:.8rem; }
-</style>
+</div>
 
 <script>
 const localPlaces = @json($localPlaces);

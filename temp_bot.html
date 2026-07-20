@@ -3,15 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>@yield('title', 'TravelMate') — Professional Travel Management</title>
+    <meta name="csrf-token" content="YQ0dQqv1L5RTUofzU6swgd2lzCGCoMAMNDmehukz">
+    <title>Log In - TravelMate — Professional Travel Management</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
-    <style>
+    <script type="module" src="http://[::1]:5173/@vite/client"></script><link rel="stylesheet" href="http://[::1]:5173/resources/css/app.css" /><script type="module" src="http://[::1]:5173/resources/js/app.js"></script>    <style>
         :root {
             /* ── CLEAN SAAS THEME ── */
             --bg-body: #f8fafc;
@@ -128,79 +127,185 @@
         /* CARDS & PANELS */
         .card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; box-shadow: var(--shadow-sm); overflow: hidden; }
     </style>
-    @stack('styles')
-</head>
+    </head>
 <body>
 
-{{-- NAVBAR --}}
+
 <nav class="navbar">
     <div class="container nav-inner">
-        <a href="{{ route('home') }}" class="nav-logo">
+        <a href="http://127.0.0.1:8000" class="nav-logo">
             <i class="fas fa-paper-plane"></i> TravelMate
         </a>
         <ul class="nav-links">
-            <li><a href="{{ route('home') }}" class="{{ request()->routeIs('home') ? 'active' : '' }}">Discover</a></li>
-            <li><a href="{{ route('destinations.index') }}" class="{{ request()->routeIs('destinations*') ? 'active' : '' }}">Destinations</a></li>
-            <li><a href="{{ route('packages.index') }}" class="{{ request()->routeIs('packages*') ? 'active' : '' }}">Packages</a></li>
-            <li><a href="{{ route('planner.index') }}" class="{{ request()->routeIs('planner*') ? 'active' : '' }}">Concierge</a></li>
+            <li><a href="http://127.0.0.1:8000" class="">Discover</a></li>
+            <li><a href="http://127.0.0.1:8000/destinations" class="">Destinations</a></li>
+            <li><a href="http://127.0.0.1:8000/packages" class="">Packages</a></li>
+            <li><a href="http://127.0.0.1:8000/planner" class="">Concierge</a></li>
         </ul>
         <div class="nav-actions">
-            @auth
-                <div class="nav-dropdown notif-badge">
-                    <a href="javascript:void(0);" onclick="toggleNavDropdown('notif-menu', event)" style="cursor:pointer; color: var(--text-muted);">
-                        <i class="fas fa-bell" style="font-size:1.1rem;"></i>
-                        @php 
-                            $unreadCount = \App\Models\TravelNotification::where('user_id',auth()->id())->where('is_read',false)->count(); 
-                        @endphp
-                        @if($unreadCount)<span class="badge">{{ $unreadCount }}</span>@endif
-                    </a>
-                    <div id="notif-menu" class="dropdown-menu" style="width: 300px;">
-                        <div style="padding: 1rem; border-bottom: 1px solid var(--border);">
-                            <h4 style="font-size: 0.95rem; font-weight: 600; margin: 0;">Notifications</h4>
-                        </div>
-                        <div style="padding: 1.5rem; text-align: center; font-size: 0.85rem;">
-                            <a href="{{ route('notifications') }}" style="color: var(--primary); font-weight: 500; justify-content: center;">View All Notifications &rarr;</a>
-                        </div>
+                            <a href="http://127.0.0.1:8000/login" class="btn btn-outline">Log In</a>
+                <a href="http://127.0.0.1:8000/register" class="btn btn-primary">Sign Up</a>
                     </div>
-                </div>
-                <div class="nav-dropdown">
-                    <img src="{{ auth()->user()->avatar_url }}" alt="avatar" class="avatar-sm" onclick="toggleNavDropdown('profile-menu', event)">
-                    <div id="profile-menu" class="dropdown-menu">
-                        <a href="{{ route('dashboard') }}"><i class="fas fa-user"></i> Dashboard</a>
-                        <a href="{{ route('bookings.index') }}"><i class="fas fa-ticket-alt"></i> My Bookings</a>
-                        @if(auth()->user()->isAdmin())
-                        <a href="{{ route('admin.dashboard') }}" style="color: #ef4444;"><i class="fas fa-shield-alt"></i> Admin Panel</a>
-                        @endif
-                        <hr>
-                        <form method="POST" action="{{ route('logout') }}">@csrf
-                            <button type="submit" style="color: #ef4444;"><i class="fas fa-sign-out-alt"></i> Log Out</button>
-                        </form>
-                    </div>
-                </div>
-            @else
-                <a href="{{ route('login') }}" class="btn btn-outline">Log In</a>
-                <a href="{{ route('register') }}" class="btn btn-primary">Sign Up</a>
-            @endauth
-        </div>
     </div>
 </nav>
 
 <main>
-    @if(session('success'))
-        <div style="position:fixed; top:90px; right: 2rem; z-index:9000; max-width:400px">
-            <div class="alert alert-success"><i class="fas fa-check-circle"></i> {{ session('success') }}</div>
-        </div>
-    @endif
-    @if(session('error'))
-        <div style="position:fixed; top:90px; right: 2rem; z-index:9000; max-width:400px">
-            <div class="alert alert-error"><i class="fas fa-exclamation-circle"></i> {{ session('error') }}</div>
-        </div>
-    @endif
+            
     
-    @yield('content')
+<style>
+    .auth-container {
+        min-height: calc(100vh - 70px);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 4rem 1.5rem;
+        background-color: var(--bg-body);
+    }
+    .auth-card {
+        background: var(--surface);
+        width: 100%;
+        max-width: 440px;
+        border-radius: 12px;
+        box-shadow: var(--shadow-md);
+        border: 1px solid var(--border);
+        padding: 2.5rem 2rem;
+    }
+    .auth-header {
+        text-align: center;
+        margin-bottom: 2rem;
+    }
+    .auth-header h1 {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: var(--text-main);
+        margin-bottom: 0.5rem;
+    }
+    .auth-header p {
+        color: var(--text-muted);
+        font-size: 0.95rem;
+    }
+    .form-group {
+        margin-bottom: 1.5rem;
+    }
+    .form-label {
+        display: block;
+        font-size: 0.85rem;
+        font-weight: 600;
+        color: var(--text-main);
+        margin-bottom: 0.5rem;
+    }
+    .form-input {
+        width: 100%;
+        padding: 0.75rem 1rem;
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        font-size: 0.95rem;
+        outline: none;
+        transition: 0.2s;
+        font-family: 'Inter', sans-serif;
+    }
+    .form-input:focus {
+        border-color: var(--primary);
+        box-shadow: 0 0 0 3px rgba(13, 148, 136, 0.1);
+    }
+    .form-check {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+    .form-check input {
+        width: 16px;
+        height: 16px;
+        accent-color: var(--primary);
+        cursor: pointer;
+    }
+    .form-check label {
+        font-size: 0.9rem;
+        color: var(--text-muted);
+        cursor: pointer;
+    }
+    .auth-btn {
+        width: 100%;
+        padding: 0.8rem;
+        background: var(--primary);
+        color: #fff;
+        border: none;
+        border-radius: 8px;
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: 0.2s;
+    }
+    .auth-btn:hover {
+        background: var(--primary-hover);
+    }
+    .auth-footer {
+        text-align: center;
+        margin-top: 1.5rem;
+        font-size: 0.9rem;
+        color: var(--text-muted);
+    }
+    .auth-footer a {
+        color: var(--primary);
+        font-weight: 600;
+    }
+    .auth-footer a:hover {
+        text-decoration: underline;
+    }
+    .input-error {
+        color: #ef4444;
+        font-size: 0.8rem;
+        margin-top: 0.25rem;
+        display: block;
+    }
+</style>
+
+<div class="auth-container">
+    <div class="auth-card">
+        <div class="auth-header">
+            <h1>Welcome Back</h1>
+            <p>Log in to your TravelMate account to manage your trips.</p>
+        </div>
+
+        <!-- Session Status -->
+        
+        <form method="POST" action="http://127.0.0.1:8000/login">
+            <input type="hidden" name="_token" value="YQ0dQqv1L5RTUofzU6swgd2lzCGCoMAMNDmehukz" autocomplete="off">
+            <!-- Email Address -->
+            <div class="form-group">
+                <label for="email" class="form-label">Email Address</label>
+                <input id="email" class="form-input" type="email" name="email" value="" required autofocus autocomplete="username" placeholder="name@example.com">
+                            </div>
+
+            <!-- Password -->
+            <div class="form-group">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <label for="password" class="form-label" style="margin: 0;">Password</label>
+                                            <a href="http://127.0.0.1:8000/forgot-password" style="font-size: 0.8rem; color: var(--primary); font-weight: 500;">Forgot password?</a>
+                                    </div>
+                <input id="password" class="form-input" type="password" name="password" required autocomplete="current-password" placeholder="••••••••" style="margin-top: 0.5rem;">
+                            </div>
+
+            <!-- Remember Me -->
+            <div class="form-group form-check">
+                <input id="remember_me" type="checkbox" name="remember">
+                <label for="remember_me">Keep me logged in</label>
+            </div>
+
+            <button type="submit" class="auth-btn">
+                Log In
+            </button>
+        </form>
+
+        <div class="auth-footer">
+            Don't have an account? <a href="http://127.0.0.1:8000/register">Sign up</a>
+        </div>
+    </div>
+</div>
+
 </main>
 
-{{-- FOOTER --}}
+
 <footer>
     <div class="container">
         <div class="footer-grid">
@@ -216,17 +321,17 @@
             <div class="footer-col">
                 <h4>Company</h4>
                 <ul>
-                    <li><a href="{{ route('about') }}">About Us</a></li>
+                    <li><a href="http://127.0.0.1:8000/about">About Us</a></li>
                     <li><a href="#">Careers</a></li>
-                    <li><a href="{{ route('contact') }}">Contact</a></li>
+                    <li><a href="http://127.0.0.1:8000/contact">Contact</a></li>
                 </ul>
             </div>
             <div class="footer-col">
                 <h4>Explore</h4>
                 <ul>
-                    <li><a href="{{ route('destinations.index') }}">Destinations</a></li>
-                    <li><a href="{{ route('packages.index') }}">Packages</a></li>
-                    <li><a href="{{ route('planner.index') }}">AI Planner</a></li>
+                    <li><a href="http://127.0.0.1:8000/destinations">Destinations</a></li>
+                    <li><a href="http://127.0.0.1:8000/packages">Packages</a></li>
+                    <li><a href="http://127.0.0.1:8000/planner">AI Planner</a></li>
                 </ul>
             </div>
             <div class="footer-col">
@@ -238,7 +343,7 @@
             </div>
         </div>
         <div class="footer-bottom">
-            <span>© {{ date('Y') }} TravelMate Inc. All rights reserved.</span>
+            <span>© 2026 TravelMate Inc. All rights reserved.</span>
         </div>
     </div>
 </footer>
@@ -258,11 +363,9 @@ window.addEventListener('click', function(e) {
 });
 setTimeout(() => { document.querySelectorAll('.alert').forEach(a => a.style.display = 'none'); }, 5000);
 </script>
-@stack('scripts')
-@auth
     <!-- Chatbot Widget -->
     <div id="chat-widget-container" style="display: none; position: fixed; bottom: 85px; right: 2rem; width: 380px; height: 600px; z-index: 1000; box-shadow: 0 15px 35px rgba(0,0,0,0.2); border-radius: 16px; overflow: hidden; border: 1px solid var(--border); transition: 0.3s; transform-origin: bottom right;">
-        <iframe src="{{ route('chatbot.index') }}?widget=true" style="width: 100%; height: 100%; border: none; background: #fff;"></iframe>
+        <iframe src="http://127.0.0.1:8000/chatbot?widget=true" style="width: 100%; height: 100%; border: none; background: #fff;"></iframe>
     </div>
 
     <button onclick="toggleChatWidget()" class="floating-chat-btn" id="floating-chat-btn">
@@ -280,7 +383,6 @@ setTimeout(() => { document.querySelectorAll('.alert').forEach(a => a.style.disp
             }
         }
     </script>
-@endauth
 
     <style>
         .floating-chat-btn {

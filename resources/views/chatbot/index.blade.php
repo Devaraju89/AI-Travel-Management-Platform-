@@ -118,9 +118,9 @@
 </div>
 
 <script>
-let session = null;
-const body = document.getElementById('chat-body');
-const inner = body.firstElementChild;
+var chatSessionId = null;
+var body = document.getElementById('chat-body');
+var inner = body.firstElementChild;
 body.scrollTop = body.scrollHeight;
 
 function quickSend(btn) { 
@@ -143,10 +143,10 @@ async function sendMainChat() {
         const res = await fetch('{{ route("chatbot.send") }}', {
             method:'POST', 
             headers:{'Content-Type':'application/json','X-CSRF-TOKEN':'{{ csrf_token() }}'},
-            body: JSON.stringify({message: msg, session_id: session})
+            body: JSON.stringify({message: msg, session_id: chatSessionId})
         });
         const data = await res.json();
-        session = data.session_id;
+        chatSessionId = data.session_id;
         
         typing.remove();
         appendMsg(data.response.text, 'bot', true);
