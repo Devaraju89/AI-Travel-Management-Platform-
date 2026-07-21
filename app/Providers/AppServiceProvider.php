@@ -36,7 +36,8 @@ class AppServiceProvider extends ServiceProvider
         });
 
         // Force HTTPS in production / Render reverse-proxy environment
-        if ($this->app->environment('production') || env('FORCE_HTTPS', false)) {
+        // We use config() instead of env() because config:cache makes env() return null
+        if (config('app.env') === 'production') {
             \Illuminate\Support\Facades\URL::forceScheme('https');
         }
     }
