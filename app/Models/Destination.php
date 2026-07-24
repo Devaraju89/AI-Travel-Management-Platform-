@@ -237,7 +237,7 @@ class Destination extends Model
 
             $cachedUrl = Cache::remember($cacheKey, now()->addDays(7), function () use ($query, $accessKey) {
                 try {
-                    $resp = Http::timeout(8)->get('https://api.unsplash.com/photos/random', [
+                    $resp = Http::timeout(2)->get('https://api.unsplash.com/photos/random', [
                         'query'       => $query,
                         'orientation' => 'landscape',
                         'client_id'   => $accessKey,

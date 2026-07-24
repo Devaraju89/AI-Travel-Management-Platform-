@@ -7,7 +7,6 @@ use Tests\TestCase;
 
 class RegistrationTest extends TestCase
 {
-    use RefreshDatabase;
 
     public function test_registration_screen_can_be_rendered(): void
     {
@@ -23,6 +22,7 @@ class RegistrationTest extends TestCase
             'email' => 'test@example.com',
             'password' => 'password',
             'password_confirmation' => 'password',
+            'role' => 'user',
         ]);
 
         $this->assertAuthenticated();

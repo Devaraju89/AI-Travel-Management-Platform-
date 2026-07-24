@@ -24,13 +24,13 @@ class RegisteredUserController extends Controller
 
     public function store(Request $request): RedirectResponse
     {
-        $role = $request->input('role', 'user');
+        $role = $request->input('role') ?: 'user';
 
         $rules = [
             'name'     => ['required', 'string', 'max:255'],
             'email'    => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
-            'role'     => ['required', 'in:user,guide'],
+            'role'     => ['nullable', 'in:user,guide'],
         ];
 
         if ($role === 'guide') {

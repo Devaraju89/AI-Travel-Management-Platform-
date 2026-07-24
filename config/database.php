@@ -72,9 +72,11 @@ return [
             'database' => env('DB_DATABASE', 'travelmate'),
             'username' => env('DB_USERNAME', ''),
             'password' => env('DB_PASSWORD', ''),
-            'options' => [
-                'database' => env('DB_AUTHENTICATION_DATABASE', 'admin'), // required with Mongo 3+
-            ],
+            'options' => array_filter([
+                'database' => env('DB_AUTHENTICATION_DATABASE'),
+                'connectTimeoutMS' => 5000,
+                'serverSelectionTimeoutMS' => 5000,
+            ]),
         ],
 
         'mariadb' => [

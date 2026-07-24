@@ -58,6 +58,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::get('/profile', [DashboardController::class, 'profile'])->name('profile');
     Route::post('/profile', [DashboardController::class, 'updateProfile'])->name('profile.update');
+    Route::patch('/profile', [\App\Http\Controllers\ProfileController::class, 'update'])->name('profile.patch');
+    Route::delete('/profile', [\App\Http\Controllers\ProfileController::class, 'destroy'])->name('profile.destroy');
     Route::get('/wishlist', [DashboardController::class, 'wishlist'])->name('wishlist');
 
     // Proxy API for City Search

@@ -102,8 +102,19 @@
             <p>Join TravelMate and start planning your next journey.</p>
         </div>
 
+        @if ($errors->any())
+            <div class="alert alert-danger" style="margin-bottom: 1.5rem; font-size: 0.85rem; padding: 0.75rem; background: #fee2e2; border: 1px solid #fca5a5; color: #991b1b; border-radius: 8px;">
+                <ul style="margin: 0; padding-left: 1.25rem;">
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+
         <form method="POST" action="{{ route('register') }}">
             @csrf
+            <input type="hidden" name="role" value="user">
 
             <!-- Name -->
             <div class="form-group">
